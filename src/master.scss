@@ -1,0 +1,73 @@
+/* Tables */
+.table td, .table th {
+    vertical-align: middle;
+}
+
+.table .fit {
+    width: 1px;
+    white-space: nowrap;
+}
+
+/* Forms */
+.validation .error-message {
+    color: red;
+    font-size: 0.8em;
+    letter-spacing: 0.05rem;
+    word-spacing: 0;
+}
+
+.validation .ng-touched.ng-invalid:not(form) {
+    border-color: #e3342f;
+}
+
+.inputfile {
+    position: absolute;
+    display: hidden;
+    z-index: 0;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+
+    &+label {
+        display: inline-block;
+        color: #d6dde4;
+        cursor: pointer;
+    }
+    
+    &:focus + label, & + label:hover {
+        color: #d6dde4;
+    }
+
+    &:focus + label {
+        outline: 1px dotted #000;
+        outline: -webkit-focus-ring-color auto 5px;
+    }
+}
+
+/* Utilities */
+.h-6 {
+    height: 6rem;
+}
+
+.h-8 {
+    height: 8rem;
+}
+
+.h-10 {
+    height: 10rem;
+}
+
+.h-12 {
+    height: 12rem;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+/* Angular material */
+
+.mat-form-field {
+    width: 100%;
+    display: block;
+}

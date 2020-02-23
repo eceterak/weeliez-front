@@ -1,0 +1,31 @@
+<div class="d-flex mb-2 justify-content-between align-items-center">
+    <div class="d-flex">
+        <h4>Brands</h4>
+        <div class="ml-2">
+            <a routerLink="create" class="btn btn-sm btn-primary">Add</a>
+        </div>
+    </div>
+    <div>
+        <app-search (searchTermUpdate)="onSearchTermUpdate($event)"></app-search>
+    </div>
+</div>
+
+<app-alert></app-alert>
+
+<div class="row">
+    <div class="col-sm-12">
+        <app-loading-spinner></app-loading-spinner>
+        <div *ngIf="brands">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <th colspan="2">Name</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let brand of brands" app-brand-list-item [brand]="brand"></tr>
+                </tbody>
+            </table>
+            <app-pagination [pager]="pager"></app-pagination>
+        </div>
+    </div>
+</div>
+    

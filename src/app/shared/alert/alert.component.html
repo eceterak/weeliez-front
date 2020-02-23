@@ -1,0 +1,3 @@
+<div *ngIf="messages">
+    <div [ngClass]="['alert', 'alert-' + class]" *ngFor="let message of messages">{{ message }}</div>
+</div>

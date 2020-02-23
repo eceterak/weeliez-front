@@ -1,34 +1,34 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes,  } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { LoginComponent } from './components/auth/login/login.component';
-import { SignupComponent } from './components/auth/signup/signup.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { BrandsListComponent } from './components/brands/brands-list/brands-list.component';
-
-const routes: Routes = [
-    { path: 'brands', component: BrandsListComponent }
-];
+import { CategoriesComponent } from './components/back/categories/categories/categories.component';
+import { CategoryComponent } from './components/back/categories/category/category.component';
+import { HeaderComponent } from './components/back/header/header.component';
+import { BackLayoutComponent } from './components/back/back-layout/back-layout.component';
+import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core.module';
+import { FrontLayoutComponent } from './components/front/front-layout/front-layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    LoginComponent,
-    SignupComponent,
-    ProfileComponent,
-    BrandsListComponent
+    CategoriesComponent,
+    CategoryComponent,
+    HeaderComponent,
+    BackLayoutComponent,
+    FrontLayoutComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes),
-    HttpClientModule
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    SharedModule,
+    CoreModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

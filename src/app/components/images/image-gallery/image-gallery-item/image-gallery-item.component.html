@@ -1,0 +1,7 @@
+<div class="d-flex position-relative justify-content-center align-items-center h-10">
+    <span class="position-absolute gallery-utilities d-flex justify-content-between mb-0 p-2">
+        <mat-icon (click)="onDeleteImage()" class="pointer">delete</mat-icon>
+        <mat-icon (click)="onDeleteImage()" class="pointer">star</mat-icon>
+    </span>
+    <img [src]="image.url" class="img img-fluid" style="max-height: 10rem;">
+</div>
