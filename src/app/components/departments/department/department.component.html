@@ -1,0 +1,18 @@
+<app-loading-spinner [isLoading]="editMode"></app-loading-spinner>
+<app-alert></app-alert>
+<mat-card>
+    <mat-card-title>{{ editMode ? 'Edit department' : 'Create department' }}</mat-card-title>
+    <mat-card-subtitle>Details</mat-card-subtitle>
+    <div class="row">
+        <div class="col-6">
+            <form [formGroup]="departmentForm" (ngSubmit)="onFormSubmit()" class="validation">
+                <mat-form-field appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input type="text" matInput formControlName="name">
+                    <mat-error *ngIf="departmentForm.get('name').invalid">{{ getErrorMessage(departmentForm.get('name')) }}</mat-error>
+                </mat-form-field>
+                <button mat-flat-button color="primary">Save</button>
+            </form>
+        </div>
+    </div>
+</mat-card>

@@ -1,24 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from "@angular/router";
-import { BackLayoutComponent } from './components/back/back-layout/back-layout.component';
+import { LayoutComponent } from './components/layout/layout.component';
 import { AuthGuard } from './components/auth/auth.guard';
-import { FrontLayoutComponent } from './components/front/front-layout/front-layout.component';
 
 const routes: Routes = [
-    {
-        path: '', 
-        component: FrontLayoutComponent, 
-        children: [] 
-    },
     { 
-        path: 'admin', 
-        component: BackLayoutComponent, 
+        path: '', 
+        component: LayoutComponent, 
         canActivate: [AuthGuard], 
         children: [
-            { path: 'brands', loadChildren: () => import('./components/back/departments/brands.module').then(m => m.BrandsModule) }
+            { path: 'shift-planner', loadChildren: () => import('./components/rotas/rotas.module').then(m => m.RotasModule) },
+            { path: 'employees', loadChildren: () => import('./components/employees/employees.module').then(m => m.EmployeesModule) },
+            { path: 'departments', loadChildren: () => import('./components/departments/departments.module').then(m => m.DepartmentsModule) }
         ] 
     },
-    { path: 'admin/login', loadChildren: () => import('./components/auth/auth.module').then(m => m.AuthModule) },
+    { path: 'login', loadChildren: () => import('./components/auth/auth.module').then(m => m.AuthModule) },
 ];
 
 @NgModule({

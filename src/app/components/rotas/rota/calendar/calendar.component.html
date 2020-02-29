@@ -1,0 +1,18 @@
+<table class="table table-sm mt-2" *ngIf="daysInMonth">
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th *ngFor="let day of daysInMonthArray">
+                {{ day }}
+            </th>
+        </tr>
+    </thead>
+    <tbody *ngIf="rows">
+        <tr *ngFor="let row of rota.rows">
+           <td>{{ row.employee.name }}</td>
+           <td *ngFor="let day of row.shifts">
+                <app-calendar-day [shift]="day" [employee]="row.employee"></app-calendar-day>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -10,9 +10,10 @@ import { RouterModule } from '@angular/router';
 import { ImageUploadComponent } from '../components/images/image-upload/image-upload.component';
 import { ImageGalleryComponent } from '../components/images/image-gallery/image-gallery.component';
 import { ImageGalleryItemComponent } from '../components/images/image-gallery/image-gallery-item/image-gallery-item.component';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } from '@angular/material';
 
 @NgModule({
@@ -29,13 +30,14 @@ import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } f
         RouterModule,
         CommonModule,
         ReactiveFormsModule,
-        MatTabsModule,
         MatCardModule,
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
         MatTableModule,
-        MatButtonModule
+        MatButtonModule,
+        MatAutocompleteModule,
+        MatSelectModule
     ],
     exports: [
         SearchComponent,
@@ -48,13 +50,14 @@ import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } f
         RouterModule,
         CommonModule,
         ReactiveFormsModule,
-        MatTabsModule,
         MatCardModule,
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
         MatTableModule,
-        MatButtonModule
+        MatButtonModule,
+        MatAutocompleteModule,
+        MatSelectModule
     ]
 })
 
