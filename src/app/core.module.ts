@@ -7,6 +7,7 @@ import { AuthInterceptor } from './components/auth/auth.interceptor';
 import { UtilitiesService } from './shared/utilities.service';
 import { DepartmentService } from './components/departments/department.service';
 import { RotaService } from './components/rotas/rota.service';
+import { CalendarService } from './components/rotas/rota/calendar/calendar.service';
 
 @NgModule({
     providers: [
@@ -14,6 +15,7 @@ import { RotaService } from './components/rotas/rota.service';
         ImageService,
         DepartmentService,
         RotaService,
+        CalendarService,
         UtilitiesService,
         { provide: HTTP_INTERCEPTORS, useClass: LoadingSpinnerInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

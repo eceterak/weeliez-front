@@ -1,64 +1,65 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Shift } from 'src/app/models/shift.model';
-import { Employee } from 'src/app/models/employee.model';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { CalendarData } from 'src/app/interfaces/calendarData.interface';
 import { Rota } from 'src/app/models/rota.model';
 import { CalendarRow } from 'src/app/interfaces/calendarRow.interface';
 import { HttpClient } from '@angular/common/http';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 
 export class CalendarService {
-    constructor(private http: HttpClient) {}
-
     detailsChanged = new Subject<any>();
-    rotaChanged = new Subject<any>();
     massDayUpdate = new Subject<any>();
+    shiftChanged = new Subject<any>();
+
+    // dok = new BehaviorSubject<any>(new CalendarRow());
+
     rota: Rota;
     rows: CalendarRow[];
+    
+    constructor(private http: HttpClient) {}
+    
+    setup(calendarData: CalendarData) {
+        // this.rota = new Rota(
+        //     null, 
+        //     calendarData.department, 
+        //     calendarData.month, 
+        //     calendarData.year, 
+        //     []
+        // );
 
-    setup(formValues: CalendarData) {
-        this.rota = new Rota(null, formValues.department, formValues.month, formValues.year);
+        // calendarData.department.employees.forEach(employee => {
+        //     this.rows.push(new CalendarRow(employee, this.shiftsFill()));
+        // });
 
-        this.detailsChanged.next(formValues);
+        this.detailsChanged.next(calendarData);
     }
 
     updateRota(rows: CalendarRow[]) {
         this.rows = rows.slice();
     }
 
-    dayUpdated(day: number, row: number, value: number) {
-        // const tt = this.rota.rows.findIndex(
-        //     (row) => {
-        //         return row.employee.id == employee.id;
-        //     }
-        // )
+    // changeShift(day: number, row: number, value: number) {
+    //     this.shiftChanged.next({
+    //         day: day,
+    //         row: row,
+    //         value: value
+    //     });
 
-        // const pp = this.rota.rows[tt].shifts.findIndex(
-        //     (shiftEl) => {
-        //         return shiftEl.day == shift.day;
-        //     }
-        // );
-
-        //console.log('day:' + day + ' row: ' + row + 'value: ' + value);
-        this.rows[row].shifts[4] = value;
-
-        console.log(this.rows);
-    }
+    //     //console.log(this.rota.rows);
+    // }
 
     createRota() {
-        // const request = {
-        //     month: this.rota.month,
-        //     year: this.rota.year,
-        //     department_id: this.rota.department.id,
-        //     rows: [
-                
-        //     ]
-        // }
+        console.log(this.rota);
+    }
 
-        console.log(this.rows);
+    get daysInMonthArray(): number[] {
+        //return Array(this.daysInMonth).fill(1).map((x, i) => i + 1);
+        return Array(7).fill(1).map((x, i) => i + 1);
+    }
+
+    shiftsFill(): number[] {
+        //return Array(this.daysInMonth).fill('').map((x, i) => 0);
+        return Array(7).fill(1).map((x, i) => 0);
     }
 }

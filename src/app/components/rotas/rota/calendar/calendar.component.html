@@ -1,4 +1,4 @@
-<table class="table table-sm mt-2" *ngIf="daysInMonth">
+<!-- <table class="table table-sm mt-2" *ngIf="daysInMonth">
     <thead>
         <tr>
             <th>Employee</th>
@@ -16,5 +16,51 @@
             </td>
         </tr>
     </tbody>
+</table> -->
+
+<!-- <table class="table table-sm mt-2" *ngIf="rows">
+
+    <tbody *ngIf="rows">
+        <tr *ngFor="let row of rows; let r = index">
+           <td>{{ row.employee.name }}</td>
+           <td *ngFor="let day of row.shifts; let d = index">
+               {{ day }}
+                <app-calendar-day [day]="d" [row]="r" [value]="day"></app-calendar-day>
+            </td>
+        </tr>
+    </tbody>
+</table> -->
+
+<!-- <table class="table table-sm mt-2" [formGroup]="formRows">
+    <tbody formArrayName="rows">
+        <tr *ngFor="let row of formRows.get('rows').controls; let i = index" [formGroupName]="i">
+           <td><input type="text" class="form-control" formControlName="employee_id"></td>
+           <div formArrayName="shifts">
+               <td *ngFor="let day of row.get('shifts').controls; let d = index" [formGroupName]="d">
+                    <input type="text" formControlName="day">
+                </td>
+           </div>
+        </tr>
+    </tbody>
+</table> -->
+
+<table class="table table-sm mt-2" [formGroup]="formRows">
+    <tbody formArrayName="rows">
+        <tr *ngFor="let item of controls; let i = index" [formGroupName]="i">
+            <td>
+                <input type="text" class="form-control" formControlName="employee_id">
+            </td>
+            <td *ngFor="let row of item.get('shifts').controls; let d = index" formArrayName="shifts">
+                <app-calendar-day [parentForm]="formRows" [name]="d"></app-calendar-day>
+                <!-- <select [formControlName]="d">
+                    <option value="0">-</option>
+                    <option value="1">8-16</option>
+                    <option value="2">10-16</option>
+                    <option value="3">10-18</option>
+                </select> -->
+            </td>
+        </tr>
+    </tbody>
 </table>
-<button (click)="onReset()">Reset</button>
+
+<button (click)="onClick()">click</button>

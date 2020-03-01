@@ -14,8 +14,8 @@
     <option value="3">10-18</option>
 </select> -->
 
-<div>
-    <input type="text" [formControl]="dayValue">
+<div [formGroup]="parentForm">
+    <input type="text" [formControlName]="name">
 </div>
 
 <!-- <span><button (click)="onChangeShift()">click</button></span> -->
