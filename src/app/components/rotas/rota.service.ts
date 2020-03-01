@@ -24,6 +24,7 @@ export class RotaService {
         })
         .pipe(
             map(response => {
+                console.log(response);
                 response.data = response.data.map(args => {
                     return new Rota(
                         args.id,

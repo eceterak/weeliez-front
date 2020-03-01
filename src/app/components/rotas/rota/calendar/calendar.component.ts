@@ -6,6 +6,8 @@ import { CalendarData } from 'src/app/interfaces/calendarData.interface';
 import { Department } from 'src/app/models/department.model';
 import { CalendarRow } from 'src/app/interfaces/calendarRow.interface';
 import { Shift } from 'src/app/models/shift.model';
+import { DepartmentService } from 'src/app/components/departments/department.service';
+import { Employee } from 'src/app/models/employee.model';
 
 @Component({
   selector: 'app-calendar',
@@ -20,61 +22,62 @@ export class CalendarComponent implements OnInit, OnDestroy {
     dayNames: string[] = [
         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
     ];
-    
-    rows: any[] = [];
-
-    rota: {
-        month: number;
-        year: number;
-        department: Department;
-        rows: any[];
-    };
+    employees: Employee[];
+    rows: CalendarRow[] = [];
 
     constructor(
         private rotaService: RotaService,
-        private calendarService: CalendarService
+        private calendarService: CalendarService,
+        private departmentService: DepartmentService
     ) {}
 
     ngOnInit() {
         this.calendarServiceSubscription = this.calendarService.detailsChanged.subscribe(
             (calendarData: CalendarData) => {
-                this.rota = {
-                    month: calendarData.month,
-                    year: calendarData.year,
-                    department: calendarData.department,
-                    rows: calendarData.rows
-                }
+                console.log(calendarData);
 
-                console.log(this.rota);
+                this.rows = [];
+
                 
                 this.firstDay = new Date(calendarData.year, calendarData.month, 1).getDay() - 1;
                 this.daysInMonth = new Date(calendarData.year, calendarData.month + 1, 0).getDate();
+                
+                
+                calendarData.department.employees.forEach(employee => {
+                    this.rows.push(new CalendarRow(employee, this.shiftsFill()));
+                });
 
-                if(calendarData.department) {
-                    let rows = [];
+                this.calendarService.updateRota(this.rows.slice());
 
-                    calendarData.department.employees.forEach(employee => {
-                        if(this.rota.rows) {
-                            const employeePos = this.rota.rows.findIndex(
-                                (row) => {
-                                    return row.employee.id == employee.id;
-                                }
-                            )
+                // this.departmentService.getEmployees(calendarData.department.id).subscribe(
+                //     (employees: Employee[]) => {
+                //         if(employees) {
+                //             this.rows = [];
 
-                            if(employeePos) {
-                                rows.push(this.rota.rows[employeePos]);
-                            } else {
-                                rows.push(new CalendarRow(employee, this.shiftsFill()));
-                            }
-                        } else {
-                            rows.push(new CalendarRow(employee, this.shiftsFill()));
-                        }
-                    });
+                //             employees.forEach(employee => {
+                //                 // if(this.rota.rows) {
+                //                 //     const employeePos = this.rota.rows.findIndex(
+                //                 //         (row) => {
+                //                 //             return row.employee.id == employee.id;
+                //                 //         }
+                //                 //     )
+        
+                //                 //     if(employeePos) {
+                //                 //         rows.push(this.rota.rows[employeePos]);
+                //                 //     } else {
+                //                 //         rows.push(new CalendarRow(employee, this.shiftsFill()));
+                //                 //     }
+                //                 // } else {
+                //                 //     rows.push(new CalendarRow(employee, this.shiftsFill()));
+                //                 // }
 
-                    this.rota.rows = rows;
-
-                    //this.calendarService.updateRota(rows);
-                }
+                //                 this.rows.push(new CalendarRow(employee, this.shiftsFill()));
+                //             });
+        
+                //             this.calendarService.updateRota(this.rows.slice());
+                //         }
+                //     }
+                // );
             }
         );
 
@@ -85,11 +88,22 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
 
     get daysInMonthArray(): number[] {
-        return Array(this.daysInMonth).fill(1).map((x, i) => i + 1);
+        //return Array(this.daysInMonth).fill(1).map((x, i) => i + 1);
+        return Array(7).fill(1).map((x, i) => i + 1);
     }
 
-    shiftsFill(): Shift[] {
-        return Array(this.daysInMonth).fill('').map((x, i) => new Shift(i + 1, 12));
+    // shiftsFill(): Shift[] {
+    //     return Array(this.daysInMonth).fill('').map((x, i) => new Shift(i + 1, 12));
+    // }
+
+    shiftsFill(): number[] {
+        // return Array(this.daysInMonth).fill('').map((x, i) => 0);
+        return Array(7).fill(1).map((x, i) => 0);
     }
 
+    onReset() {
+        this.rows = [];
+
+        this.calendarService.createRota();
+    }
 }

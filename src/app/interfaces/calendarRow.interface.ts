@@ -1,11 +1,10 @@
 import { Employee } from '../models/employee.model';
-import { Shift } from '../models/shift.model';
 
 export class CalendarRow {
     public employee: Employee;
-    public shifts: Shift[];
+    public shifts: number[];
 
-    constructor(employee: Employee, shifts: Shift[]) {
+    constructor(employee: Employee, shifts: number[]) {
         this.employee = employee;
         this.shifts = shifts;
     }

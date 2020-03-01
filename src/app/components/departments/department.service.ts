@@ -6,6 +6,7 @@ import { HttpPaginationResponse } from 'src/app/interfaces/httpPaginationRespons
 import { Params } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
 import { HttpDataResponse } from 'src/app/interfaces/httpDataResponse.interface';
+import { Employee } from 'src/app/models/employee.model';
 
 @Injectable()
 
@@ -66,5 +67,22 @@ export class DepartmentService {
         this.departmentsChanged.next(this.departments);
 
         return this.http.delete('http://127.0.0.1:8001/api/departments/' + id);
+    }
+
+    getEmployees(id: number): Observable<Employee[]> {
+        return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/departments/' + id + '/employees')
+        .pipe(
+            map(response => {
+                let data = response.data.map((args: any) => {
+                    return new Employee(
+                        args.id, 
+                        args.name,
+                        args.surname
+                    );
+                });
+
+                return data;
+            })
+        )
     }
 }

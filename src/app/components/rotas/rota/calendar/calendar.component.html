@@ -8,11 +8,13 @@
         </tr>
     </thead>
     <tbody *ngIf="rows">
-        <tr *ngFor="let row of rota.rows">
+        <tr *ngFor="let row of rows; let r = index">
            <td>{{ row.employee.name }}</td>
-           <td *ngFor="let day of row.shifts">
-                <app-calendar-day [shift]="day" [employee]="row.employee"></app-calendar-day>
+           <td *ngFor="let day of row.shifts; let d = index">
+               {{ day }}
+                <app-calendar-day [day]="d" [row]="r" [value]="day"></app-calendar-day>
             </td>
         </tr>
     </tbody>
 </table>
+<button (click)="onReset()">Reset</button>

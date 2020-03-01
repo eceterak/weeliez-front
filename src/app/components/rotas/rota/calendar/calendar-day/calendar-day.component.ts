@@ -1,32 +1,44 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Shift } from 'src/app/models/shift.model';
 import { CalendarService } from '../calendar.service';
 import { Employee } from 'src/app/models/employee.model';
+import { FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-calendar-day',
   templateUrl: './calendar-day.component.html',
   styleUrls: ['./calendar-day.component.scss']
 })
-export class CalendarDayComponent implements OnInit {
+export class CalendarDayComponent implements OnInit, OnDestroy {
 
-    @Input() shift: Shift;
-    @Input() employee: Employee;
+    @Input() day: number;
+    @Input() row: number;
+    @Input() value: number;
+    dayValue: FormControl;
+    sub: Subscription;
 
     constructor(private calendarService: CalendarService) {}
 
     ngOnInit() {
-        this.calendarService.massDayUpdate.subscribe(
-            (data) => {
-                if(data.employee.id == this.employee.id) {
-                    console.log('tt');
-                }
+        this.dayValue = new FormControl(this.value);
+
+        this.sub = this.dayValue.valueChanges.subscribe(
+            (val) => {
+                this.calendarService.dayUpdated(this.day, this.row, val);
             }
         )
+
+        // this.calendarService.massDayUpdate.subscribe(
+        //     (data) => {
+        //         if(data.employee.id == this.employee.id) {
+        //             console.log('tt');
+        //         }
+        //     }
+        // )
     }
 
-    onSelectShift() {
-        this.calendarService.dayUpdated(this.shift, this.employee);
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
-
 }

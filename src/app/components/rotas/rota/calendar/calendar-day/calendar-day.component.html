@@ -1,7 +1,21 @@
-<!-- <select (change)="onSelectShift($event)">
+<!-- <select (change)="onChangeShift()">
+    <option value="0">-</option>
     <option value="1">8-16</option>
     <option value="2">10-16</option>
     <option value="3">10-18</option>
 </select> -->
 
-<input type="text" (change)="onSelectShift($event)" [value]="shift.value" style="width: 10px;">
+<!-- <p>Day: {{ day }} Row: {{ row }} Value: {{ value }}</p>
+
+<select [formControl]="dayValue">
+    <option value="0">-</option>
+    <option value="1">8-16</option>
+    <option value="2">10-16</option>
+    <option value="3">10-18</option>
+</select> -->
+
+<div>
+    <input type="text" [formControl]="dayValue">
+</div>
+
+<!-- <span><button (click)="onChangeShift()">click</button></span> -->

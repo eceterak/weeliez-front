@@ -47,7 +47,7 @@ export class RotaComponent implements OnInit {
         this.rotaForm.valueChanges.subscribe(
             (formValues) => {
                 if(formValues.department) {
-                    this.calendarService.detailsChanged.next(formValues);
+                    this.calendarService.setup(formValues);
                 }
             }
         );
@@ -84,5 +84,9 @@ export class RotaComponent implements OnInit {
         }
 
         return yearsArr;
+    }
+
+    onSaveRota() {
+        this.calendarService.createRota();
     }
 }
