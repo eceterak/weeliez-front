@@ -5,8 +5,10 @@ import { Subscription } from 'rxjs';
 import { CalendarData } from 'src/app/interfaces/calendarData.interface';
 import { CalendarRow } from 'src/app/interfaces/calendarRow.interface';
 import { DepartmentService } from 'src/app/components/departments/department.service';
-import { Employee } from 'src/app/models/employee.model';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
+import { Rota } from 'src/app/models/rota.model';
+import { Department } from 'src/app/models/department.model';
+import { Employee } from 'src/app/models/employee.model';
 
 @Component({
   selector: 'app-calendar',
@@ -34,83 +36,72 @@ export class CalendarComponent implements OnInit, OnDestroy {
     ngOnInit() {
         // this.formRows = new FormGroup({
         //     'rows': new FormArray([
-        //         this.row
+        //         new FormGroup({
+        //             'employee_id': new FormControl('marek'),
+        //             'shifts': new FormArray([
+        //                 new FormControl(1), new FormControl(2), new FormControl(3)
+        //             ])
+        //         }),
+        //         new FormGroup({
+        //             'employee_id': new FormControl('elon'),
+        //             'shifts': new FormArray([
+        //                 new FormControl(3), new FormControl(2), new FormControl(1)
+        //             ])
+        //         })
         //     ])
-        // })
+        // });
 
-        this.formRows = new FormGroup({
-            'rows': new FormArray([
-                new FormGroup({
-                    'employee_id': new FormControl('marek'),
-                    'shifts': new FormArray([
-                        new FormControl(1), new FormControl(2), new FormControl(3)
-                    ])
-                }),
-                new FormGroup({
-                    'employee_id': new FormControl('elon'),
-                    'shifts': new FormArray([
-                        new FormControl(1), new FormControl(2), new FormControl(3)
-                    ])
-                })
-            ])
-        });
+        // const rota: Rota = new Rota(
+        //     1, 
+        //     new Department(1, 'asd'),
+        //     2,
+        //     2020,
+        //     [
+        //         new CalendarRow(new Employee(1, 'marek', 'bartula'), [2, 2, 2, 2, 2, 0, 0])
+        //     ]
+        // );
 
-        console.log(this.formRows);
+        // if(rota) {
+        //     this.firstDay = new Date(rota.year, rota.month, 1).getDay() - 1;
+        //     this.daysInMonth = new Date(rota.year, rota.month + 1, 0).getDate();
 
-        this.rows = [new CalendarRow(new Employee(1, 'marek', 'bartula'), [1, 1, 3, 1, 1, 1, 1])];
+        //     const rows = new FormArray([]);
+
+                
+        //     rota.rows.forEach(row => {
+        //         rows.push(new FormGroup({
+        //             'employee_id': new FormControl(row.employee.name + ' ' + row.employee.surname),
+        //             'shifts': new FormArray(this.shiftsFill(row.shifts))
+        //         }))  
+        //     });
+
+        //     this.formRows = new FormGroup({
+        //         'rows': rows
+        //     });
+
+        //     console.log(this.formRows.get('rows.0.shifts.0'));
+        // }
 
         this.calendarServiceSubscription = this.calendarService.detailsChanged.subscribe(
-            (rows) => {
-                //this.rows = rows;
+            (calendarData: CalendarData) => {
+                this.firstDay = new Date(calendarData.year, calendarData.month, 1).getDay() - 1;
+                this.daysInMonth = new Date(calendarData.year, calendarData.month + 1, 0).getDate();
+                
+                const rows = new FormArray([]);
 
-                //console.log(Object.is(this.rows, this.calendarService.rota.rows));
+                
+                calendarData.department.employees.forEach(employee => {
+                    rows.push(new FormGroup({
+                        'employee_id': new FormControl(employee.name + ' ' + employee.surname),
+                        'shifts': new FormArray(this.shiftsFill())
+                    }))  
+                });
+
+                this.formRows = new FormGroup({
+                    'rows': rows
+                });
             }
         );
-
-        // this.calendarServiceSubscription = this.calendarService.detailsChanged.subscribe(
-        //     (calendarData: CalendarData) => {
-        //         this.firstDay = new Date(calendarData.year, calendarData.month, 1).getDay() - 1;
-        //         this.daysInMonth = new Date(calendarData.year, calendarData.month + 1, 0).getDate();
-                
-        //         this.rows = [];
-                
-        //         calendarData.department.employees.forEach(employee => {
-        //             this.rows.push(new CalendarRow(employee, this.shiftsFill()));
-        //         });
-
-        //         //this.calendarService.updateRota(this.rows.slice());
-
-        //         // this.departmentService.getEmployees(calendarData.department.id).subscribe(
-        //         //     (employees: Employee[]) => {
-        //         //         if(employees) {
-        //         //             this.rows = [];
-
-        //         //             employees.forEach(employee => {
-        //         //                 // if(this.rota.rows) {
-        //         //                 //     const employeePos = this.rota.rows.findIndex(
-        //         //                 //         (row) => {
-        //         //                 //             return row.employee.id == employee.id;
-        //         //                 //         }
-        //         //                 //     )
-        
-        //         //                 //     if(employeePos) {
-        //         //                 //         rows.push(this.rota.rows[employeePos]);
-        //         //                 //     } else {
-        //         //                 //         rows.push(new CalendarRow(employee, this.shiftsFill()));
-        //         //                 //     }
-        //         //                 // } else {
-        //         //                 //     rows.push(new CalendarRow(employee, this.shiftsFill()));
-        //         //                 // }
-
-        //         //                 this.rows.push(new CalendarRow(employee, this.shiftsFill()));
-        //         //             });
-        
-        //         //             this.calendarService.updateRota(this.rows.slice());
-        //         //         }
-        //         //     }
-        //         // );
-        //     }
-        // );
     }
 
     ngOnDestroy() {
@@ -118,30 +109,28 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
 
     get daysInMonthArray(): number[] {
-        //return Array(this.daysInMonth).fill(1).map((x, i) => i + 1);
-        return Array(7).fill(1).map((x, i) => i + 1);
+        return Array(this.daysInMonth).fill(1).map((x, i) => i + 1);
+        //return Array(7).fill(1).map((x, i) => i + 1);
     }
 
-    shiftsFill(): number[] {
-        //return Array(this.daysInMonth).fill('').map((x, i) => 0);
-        return Array(7).fill(1).map((x, i) => 0);
+    shiftsFill(shifts?: number[]): FormControl[] {
+        if(shifts) {
+            const tt = [];
+
+            shifts.forEach(element => {
+                tt.push(new FormControl(element));
+            });
+
+            console.log(tt);
+
+            return tt;
+        }
+        //return Array(this.daysInMonth).fill(1).map((x, i) => new FormControl(0));
+        return Array(this.daysInMonth).fill(1).map((x, i) => new FormControl(0));
     }
 
     get controls() {
         return (<FormArray>this.formRows.get('rows')).controls;
-    }
-
-    get row(): FormGroup {
-        return new FormGroup({
-            'employee_id': new FormControl('marek'),
-            'shifts': new FormArray([
-                this.shifts
-            ])
-        });
-    }
-
-    get shifts(): FormControl {
-        return new FormControl(1);
     }
 
     // onReset() {

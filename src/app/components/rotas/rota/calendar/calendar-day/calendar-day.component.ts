@@ -12,12 +12,9 @@ import { Subscription } from 'rxjs';
 })
 export class CalendarDayComponent implements OnInit, OnDestroy {
 
-    // @Input() day: number;
-    // @Input() row: number;
-    // @Input() value: number;
     @Input() parentForm: FormGroup;
-    @Input() name: number;
-    dayValue: FormControl;
+    @Input() row: number;
+    @Input() day: number;
     sub: Subscription;
 
     constructor(private calendarService: CalendarService) {}
@@ -25,15 +22,17 @@ export class CalendarDayComponent implements OnInit, OnDestroy {
     ngOnInit() {
         //this.dayValue = new FormControl(this.value);
 
-        // this.sub = this.dayValue.valueChanges.subscribe(
-        //     (val) => {
-        //         this.calendarService.shiftChanged.next({
-        //             day: this.day,
-        //             row: this.row,
-        //             value: val
-        //         });
-        //     }
-        // );
+        this.sub = this.control.valueChanges.subscribe(
+            (val) => {
+                console.log(val);
+
+                // this.calendarService.shiftChanged.next({
+                //     day: this.day,
+                //     row: this.row,
+                //     value: val
+                // });
+            }
+        );
 
         // this.calendarService.massDayUpdate.subscribe(
         //     (data) => {
@@ -46,5 +45,9 @@ export class CalendarDayComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.sub.unsubscribe();
+    }
+
+    get control(): FormControl {
+        return (<FormControl>this.parentForm.get(['rows', this.row, 'shifts', this.day]));
     }
 }

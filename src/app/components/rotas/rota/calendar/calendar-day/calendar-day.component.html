@@ -1,21 +1,17 @@
-<!-- <select (change)="onChangeShift()">
-    <option value="0">-</option>
-    <option value="1">8-16</option>
-    <option value="2">10-16</option>
-    <option value="3">10-18</option>
-</select> -->
-
-<!-- <p>Day: {{ day }} Row: {{ row }} Value: {{ value }}</p>
-
-<select [formControl]="dayValue">
-    <option value="0">-</option>
-    <option value="1">8-16</option>
-    <option value="2">10-16</option>
-    <option value="3">10-18</option>
-</select> -->
-
-<div [formGroup]="parentForm">
-    <input type="text" [formControlName]="name">
+<div style="width: 100%; height: 100%;">
+    <!-- <mat-form-field appearance="outline">
+        <mat-select [formControl]="control">
+            <mat-option value="0">-</mat-option>
+            <mat-option value="1">8-16</mat-option>
+            <mat-option value="2">10-16</mat-option>
+            <mat-option value="3">10-18</mat-option>
+        </mat-select>
+    </mat-form-field> -->
+    <select [formControl]="control">
+        <option value="0">-</option>
+        <option value="1">8-16</option>
+        <option value="2">10-16</option>
+        <option value="3">10-18</option>
+    </select>
+    <!-- <input type="text" [formControl]="control"> -->
 </div>
-
-<!-- <span><button (click)="onChangeShift()">click</button></span> -->

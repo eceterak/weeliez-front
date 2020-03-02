@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { CalendarData } from 'src/app/interfaces/calendarData.interface';
 import { Rota } from 'src/app/models/rota.model';
 import { CalendarRow } from 'src/app/interfaces/calendarRow.interface';
@@ -11,8 +11,6 @@ export class CalendarService {
     detailsChanged = new Subject<any>();
     massDayUpdate = new Subject<any>();
     shiftChanged = new Subject<any>();
-
-    // dok = new BehaviorSubject<any>(new CalendarRow());
 
     rota: Rota;
     rows: CalendarRow[];

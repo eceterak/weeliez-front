@@ -1,10 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UtilitiesService } from 'src/app/shared/utilities.service';
-import { Department } from 'src/app/models/department.model';
-import { DepartmentService } from '../../departments/department.service';
-import { HttpPaginationResponse } from 'src/app/interfaces/httpPaginationResponse.interface';
-import { HttpErrorResponse } from '@angular/common/http';
 import { CalendarService } from './calendar/calendar.service';
 import { Rota } from 'src/app/models/rota.model';
 
