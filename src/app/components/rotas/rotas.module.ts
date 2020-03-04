@@ -7,6 +7,7 @@ import { CalendarDayComponent } from './rota/calendar/calendar-day/calendar-day.
 import { RotaListComponent } from './rota-list/rota-list.component';
 import { RotaListItemComponent } from './rota-list/rota-list-item/rota-list-item.component';
 import { CalendarMonthPickerComponent } from './rota/calendar-month-picker/calendar-month-picker.component';
+import { AppointmentModalComponent } from './appointment-modal/appointment-modal.component';
 
 @NgModule({  
     declarations: [
@@ -15,11 +16,15 @@ import { CalendarMonthPickerComponent } from './rota/calendar-month-picker/calen
         RotaListItemComponent,
         CalendarMonthPickerComponent,
         CalendarComponent,
-        CalendarDayComponent
+        CalendarDayComponent,
+        AppointmentModalComponent
     ],
     imports: [
         SharedModule,
         RotasRoutingModule
+    ],
+    entryComponents: [
+        AppointmentModalComponent
     ]
 })
 

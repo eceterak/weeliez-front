@@ -10,7 +10,7 @@ const routes: Routes = [
         canActivate: [AuthGuard], 
         children: [
             { path: 'shift-planner', loadChildren: () => import('./components/rotas/rotas.module').then(m => m.RotasModule) },
-            { path: 'employees', loadChildren: () => import('./components/employees/employees.module').then(m => m.EmployeesModule) },
+            { path: 'doctors', loadChildren: () => import('./components/doctors/doctors.module').then(m => m.DoctorsModule) },
             { path: 'departments', loadChildren: () => import('./components/departments/departments.module').then(m => m.DepartmentsModule) }
         ] 
     },

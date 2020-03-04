@@ -58,7 +58,7 @@ export class DepartmentComponent implements OnInit {
     onFormSubmit() {
         if(this.departmentForm.valid) {
             if(this.editMode) {
-                this.departmentService.updateEmployee(this.department.id, this.departmentForm.value).subscribe(
+                this.departmentService.updateDoctor(this.department.id, this.departmentForm.value).subscribe(
                     (_) => {
                         this.router.navigate(['/departments'], { state: { message: 'Department updated' } });
                     },

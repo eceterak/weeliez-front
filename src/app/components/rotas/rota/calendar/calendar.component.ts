@@ -1,14 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RotaService } from '../../rota.service';
 import { CalendarService } from './calendar.service';
 import { Subscription } from 'rxjs';
 import { CalendarData } from 'src/app/interfaces/calendarData.interface';
 import { CalendarRow } from 'src/app/interfaces/calendarRow.interface';
-import { DepartmentService } from 'src/app/components/departments/department.service';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
-import { Rota } from 'src/app/models/rota.model';
-import { Department } from 'src/app/models/department.model';
-import { Employee } from 'src/app/models/employee.model';
+import { DepartmentService } from 'src/app/components/departments/department.service';
+import { Doctor } from 'src/app/models/doctor.model';
+import { MatDialog } from '@angular/material';
+import { AppointmentModalComponent } from '../../appointment-modal/appointment-modal.component';
 
 @Component({
   selector: 'app-calendar',
@@ -23,83 +22,55 @@ export class CalendarComponent implements OnInit, OnDestroy {
     dayNames: string[] = [
         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
     ];
-    rows: CalendarRow[] = [];
-
-    formRows: FormGroup;
+    rows: CalendarRow[] = [
+        new CalendarRow(new Doctor(1, 'marek', 'bartula', 'dr'), [
+            [{ name: 'Surgery', time: '10:00' }, { name: 'Dinner', time: '13:00'} ],
+            [{ name: 'Surgery', time: '10:00' }, { name: 'Dinner', time: '13:00'} ],
+            [{ name: 'Surgery', time: '10:00' }, { name: 'Dinner', time: '13:00'} ],
+            [{ name: 'Surgery', time: '10:00' }, { name: 'Dinner', time: '13:00'} ],
+            [{ name: 'Surgery', time: '10:00' }, { name: 'Dinner', time: '13:00'} ]
+        ])
+    ];
 
     constructor(
-        private rotaService: RotaService,
         private calendarService: CalendarService,
         private departmentService: DepartmentService
     ) {}
 
     ngOnInit() {
-        // this.formRows = new FormGroup({
-        //     'rows': new FormArray([
-        //         new FormGroup({
-        //             'employee_id': new FormControl('marek'),
-        //             'shifts': new FormArray([
-        //                 new FormControl(1), new FormControl(2), new FormControl(3)
-        //             ])
-        //         }),
-        //         new FormGroup({
-        //             'employee_id': new FormControl('elon'),
-        //             'shifts': new FormArray([
-        //                 new FormControl(3), new FormControl(2), new FormControl(1)
-        //             ])
-        //         })
-        //     ])
-        // });
-
-        // const rota: Rota = new Rota(
-        //     1, 
-        //     new Department(1, 'asd'),
-        //     2,
-        //     2020,
-        //     [
-        //         new CalendarRow(new Employee(1, 'marek', 'bartula'), [2, 2, 2, 2, 2, 0, 0])
-        //     ]
-        // );
-
-        // if(rota) {
-        //     this.firstDay = new Date(rota.year, rota.month, 1).getDay() - 1;
-        //     this.daysInMonth = new Date(rota.year, rota.month + 1, 0).getDate();
-
-        //     const rows = new FormArray([]);
-
-                
-        //     rota.rows.forEach(row => {
-        //         rows.push(new FormGroup({
-        //             'employee_id': new FormControl(row.employee.name + ' ' + row.employee.surname),
-        //             'shifts': new FormArray(this.shiftsFill(row.shifts))
-        //         }))  
-        //     });
-
-        //     this.formRows = new FormGroup({
-        //         'rows': rows
-        //     });
-
-        //     console.log(this.formRows.get('rows.0.shifts.0'));
-        // }
-
         this.calendarServiceSubscription = this.calendarService.detailsChanged.subscribe(
             (calendarData: CalendarData) => {
-                this.firstDay = new Date(calendarData.year, calendarData.month, 1).getDay() - 1;
-                this.daysInMonth = new Date(calendarData.year, calendarData.month + 1, 0).getDate();
+                // calendarData.department.doctors.forEach(doctor => {
+                //     rows.push(new FormGroup({
+                //         'doctor_id': new FormControl(doctor.name + ' ' + doctor.surname),
+                //         'shifts': new FormArray(this.shiftsFill())
+                //     }))  
+                // });
+                // this.departmentService.getDoctors(calendarData.department.id).subscribe(
+                //     (doctors: Doctor[]) => {
+                //         console.log(doctors);
+                //     }
+                // )
+
+
+                // console.log(calendarData.department);
+
+                // this.firstDay = new Date(calendarData.year, calendarData.month, 1).getDay() - 1;
+                // this.daysInMonth = new Date(calendarData.year, calendarData.month + 1, 0).getDate();
                 
-                const rows = new FormArray([]);
+                // const rows = new FormArray([]);
 
                 
-                calendarData.department.employees.forEach(employee => {
-                    rows.push(new FormGroup({
-                        'employee_id': new FormControl(employee.name + ' ' + employee.surname),
-                        'shifts': new FormArray(this.shiftsFill())
-                    }))  
-                });
+                // calendarData.department.doctors.forEach(doctor => {
+                //     rows.push(new FormGroup({
+                //         'doctor_id': new FormControl(doctor.name + ' ' + doctor.surname),
+                //         'shifts': new FormArray(this.shiftsFill())
+                //     }))  
+                // });
 
-                this.formRows = new FormGroup({
-                    'rows': rows
-                });
+                // this.formRows = new FormGroup({
+                //     'rows': rows
+                // });
             }
         );
     }
@@ -109,8 +80,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
 
     get daysInMonthArray(): number[] {
-        return Array(this.daysInMonth).fill(1).map((x, i) => i + 1);
-        //return Array(7).fill(1).map((x, i) => i + 1);
+        //return Array(this.daysInMonth).fill(1).map((x, i) => i + 1);
+        return Array(5).fill(1).map((x, i) => i + 1);
     }
 
     shiftsFill(shifts?: number[]): FormControl[] {
@@ -126,20 +97,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
             return tt;
         }
         //return Array(this.daysInMonth).fill(1).map((x, i) => new FormControl(0));
-        return Array(this.daysInMonth).fill(1).map((x, i) => new FormControl(0));
-    }
-
-    get controls() {
-        return (<FormArray>this.formRows.get('rows')).controls;
-    }
-
-    // onReset() {
-    //     this.rows = [];
-
-    //     this.calendarService.createRota();
-    // }
-
-    onClick() {
-        console.log(this.formRows.value);
+        return Array(5).fill(1).map((x, i) => new FormControl(0));
     }
 }

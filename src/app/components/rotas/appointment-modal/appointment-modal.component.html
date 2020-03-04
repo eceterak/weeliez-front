@@ -1,0 +1,66 @@
+<h1 mat-dialog-title class="mb-0">dr. Marek Bartula</h1>
+<p class="small">Manage appointments</p>
+<mat-dialog-content>
+    <div *ngIf="data" class="my-2 border-t-1">
+        <h5>Current appointments</h5>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Patient</th>
+                    <th colspan="2">Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let service of data.appointments">
+                    <td>
+                        {{ service.name }}
+                    </td>
+                    <td>
+                        Richard Bun
+                    </td>
+                    <td>
+                        {{ service.time }}
+                    </td>
+                    <td class="fit">
+                        <button mat-flat-button color="warn">Cancel</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h5>New appointment</h5>
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="outline">
+                    <mat-label>Patient</mat-label>
+                    <input type="text" matInput [matAutocomplete]="department">
+                    <mat-autocomplete #department="matAutocomplete">
+                        <mat-option value="123">asda</mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="outline">
+                    <mat-label>Service</mat-label>
+                    <input type="text" matInput [matAutocomplete]="department">
+                    <mat-autocomplete #department="matAutocomplete">
+                        <mat-option value="123">Big surgery</mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="outline">
+                    <mat-label>Time</mat-label>
+                    <mat-select>
+                        <mat-option>10:00</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

@@ -1,13 +1,13 @@
-import { Employee } from './employee.model';
+import { Doctor } from './doctor.model';
 
 export class Department {
     public id: number;
     public name: string;
-    public employees: Employee[];
+    public doctors: Doctor[];
 
-    constructor(id: number, name: string, employees?: Employee[]) {
+    constructor(id: number, name: string, doctors?: Doctor[]) {
         this.id = id;
         this.name = name;
-        this.employees = employees;
+        this.doctors = doctors;
     }
 }

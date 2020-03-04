@@ -67,7 +67,7 @@ export class RotaService {
         return this.http.patch('http://127.0.0.1:8001/api/rotas/' + id, data);
     }
 
-    deleteEmployee(id: number): Observable<any> {
+    deleteDoctor(id: number): Observable<any> {
         const position = this.rotas.findIndex( 
             (rotaEl: Rota) => {
                 return rotaEl.id === id;

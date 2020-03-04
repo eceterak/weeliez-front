@@ -14,8 +14,9 @@ import { HttpDataResponse } from 'src/app/interfaces/httpDataResponse.interface'
 })
 export class CalendarMonthPickerComponent implements OnInit {
     rotaForm: FormGroup;
-    currentMonth: number;
-    currentYear: number;
+    currentMonth: number = new Date().getMonth();
+    currentYear: number = new Date().getFullYear(); 
+    daysInMonth: number = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
     departments: Department[];
     getErrorMessage = UtilitiesService.getErrorMessage;
     months: string[] = [
@@ -28,9 +29,6 @@ export class CalendarMonthPickerComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.currentYear = new Date().getFullYear();
-        this.currentMonth = new Date().getMonth();
-
         this.initForm();
 
         this.departmentService.getAllDepartments({}).subscribe(

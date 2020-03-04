@@ -1,53 +1,33 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Shift } from 'src/app/models/shift.model';
+import { Component, OnInit, Input } from '@angular/core';
 import { CalendarService } from '../calendar.service';
-import { Employee } from 'src/app/models/employee.model';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { AppointmentModalComponent } from '../../../appointment-modal/appointment-modal.component';
 
 @Component({
   selector: 'app-calendar-day',
   templateUrl: './calendar-day.component.html',
   styleUrls: ['./calendar-day.component.scss']
 })
-export class CalendarDayComponent implements OnInit, OnDestroy {
+export class CalendarDayComponent implements OnInit {
 
-    @Input() parentForm: FormGroup;
-    @Input() row: number;
-    @Input() day: number;
-    sub: Subscription;
+    @Input() data: any[];
+    appointmentModalRef: MatDialogRef<AppointmentModalComponent>;
 
-    constructor(private calendarService: CalendarService) {}
+    constructor(
+        private calendarService: CalendarService,
+        private dialog: MatDialog
+    ) {}
 
     ngOnInit() {
-        //this.dayValue = new FormControl(this.value);
+        console.log(this.data);
+    }
 
-        this.sub = this.control.valueChanges.subscribe(
-            (val) => {
-                console.log(val);
-
-                // this.calendarService.shiftChanged.next({
-                //     day: this.day,
-                //     row: this.row,
-                //     value: val
-                // });
+    onNewAppointment(): void {
+        this.appointmentModalRef = this.dialog.open(AppointmentModalComponent, {
+            width: '800px',
+            data: {
+                appointments: this.data
             }
-        );
-
-        // this.calendarService.massDayUpdate.subscribe(
-        //     (data) => {
-        //         if(data.employee.id == this.employee.id) {
-        //             console.log('tt');
-        //         }
-        //     }
-        // )
-    }
-
-    ngOnDestroy() {
-        this.sub.unsubscribe();
-    }
-
-    get control(): FormControl {
-        return (<FormControl>this.parentForm.get(['rows', this.row, 'shifts', this.day]));
+        });
     }
 }

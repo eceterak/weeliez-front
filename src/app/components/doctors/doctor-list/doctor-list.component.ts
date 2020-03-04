@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterContentChecked } from '@angular/core';
-import { EmployeeService } from '../employee.service';
-import { Employee } from 'src/app/models/employee.model';
+import { DoctorService } from '../doctor.service';
+import { Doctor } from 'src/app/models/doctor.model';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpPaginationResponse } from 'src/app/interfaces/httpPaginationResponse.interface';
@@ -9,17 +9,17 @@ import { AlertService } from 'src/app/shared/alert/alert.service';
 import { PagerInterface } from 'src/app/interfaces/pager.interface';
 
 @Component({
-  templateUrl: './employee-list.component.html',
-  styleUrls: ['./employee-list.component.scss']
+  templateUrl: './doctor-list.component.html',
+  styleUrls: ['./doctor-list.component.scss']
 })
-export class EmployeeListComponent implements OnInit, OnDestroy, AfterContentChecked {
+export class DoctorListComponent implements OnInit, OnDestroy, AfterContentChecked {
 
-    employees: Employee[] = [];
-    employeesSubscription: Subscription;
+    doctors: Doctor[] = [];
+    doctorsSubscription: Subscription;
     pager: PagerInterface;
 
     constructor(
-        private employeeService: EmployeeService,
+        private doctorService: DoctorService,
         private route: ActivatedRoute,
         private router: Router,
         private alertService: AlertService
@@ -32,9 +32,9 @@ export class EmployeeListComponent implements OnInit, OnDestroy, AfterContentChe
             }
         );
 
-        this.employeesSubscription = this.employeeService.employeesChanged.subscribe(
-            (employees: Employee[]) => {
-                this.employees = employees;
+        this.doctorsSubscription = this.doctorService.doctorsChanged.subscribe(
+            (doctors: Doctor[]) => {
+                this.doctors = doctors;
             }
         )
     }
@@ -49,18 +49,18 @@ export class EmployeeListComponent implements OnInit, OnDestroy, AfterContentChe
     }
 
     ngOnDestroy() {
-        this.employeesSubscription.unsubscribe();
+        this.doctorsSubscription.unsubscribe();
     }
 
     loadPage(params: Params) {
-        this.employeeService.getAllEmployees(params).subscribe(
+        this.doctorService.getAllDoctors(params).subscribe(
             (response: HttpPaginationResponse) => {
                 this.pager = {
                     links: response.links,
                     meta: response.meta
                 }
 
-                this.employees = response.data;
+                this.doctors = response.data;
             },
             (error: HttpErrorResponse) => {
                 console.log(error);

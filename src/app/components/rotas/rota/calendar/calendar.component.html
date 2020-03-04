@@ -1,7 +1,7 @@
 <!-- <table class="table table-sm mt-2" [formGroup]="formRows" *ngIf="formRows">
     <thead>
         <tr>
-            <th>Employee</th>
+            <th>Doctor</th>
             <th *ngFor="let day of daysInMonthArray">
                 {{ day }}
             </th>
@@ -10,7 +10,7 @@
     <tbody formArrayName="rows">
         <tr *ngFor="let r of formRows.get('rows').controls; let row = index" [formGroupName]="row">
             <td>
-                {{ r.get('employee_id').value }}
+                {{ r.get('doctor_id').value }}
             </td>
             <td *ngFor="let d of r.get('shifts').controls; let day = index" formArrayName="shifts">
                 <app-calendar-day [parentForm]="formRows" [day]="day" [row]="row"></app-calendar-day>
@@ -22,18 +22,18 @@
 <table class="table table-sm mt-2">
     <thead>
         <tr>
-            <th>Employee</th>
+            <th>Doctor</th>
             <th *ngFor="let day of daysInMonthArray">
                 {{ day }}
             </th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>emp name</td>
-            <td *ngFor="let day of daysInMonthArray">
-                
-            </td> 
+        <tr *ngFor="let row of rows">
+            <td>{{ row.doctor.name }}</td>
+            <td *ngFor="let day of row.appo; let d = index">
+                <app-calendar-day [data]="day"></app-calendar-day>
+            </td>
         </tr>
     </tbody>
 </table>

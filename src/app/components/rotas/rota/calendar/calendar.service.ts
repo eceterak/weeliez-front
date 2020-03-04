@@ -26,8 +26,8 @@ export class CalendarService {
         //     []
         // );
 
-        // calendarData.department.employees.forEach(employee => {
-        //     this.rows.push(new CalendarRow(employee, this.shiftsFill()));
+        // calendarData.department.doctors.forEach(doctor => {
+        //     this.rows.push(new CalendarRow(doctor, this.shiftsFill()));
         // });
 
         this.detailsChanged.next(calendarData);

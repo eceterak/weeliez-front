@@ -1,0 +1,5 @@
+<!-- <td><a [routerLink]="['/doctors', doctor.id]">{{ doctor.name }}</a></td>
+<td><a [routerLink]="['/doctors', doctor.id]">{{ doctor.surname }}</a></td> -->
+<td><a (click)="onEditDoctor()">{{ doctor.name }}</a></td>
+<td><a [routerLink]="['/doctors', doctor.id]">{{ doctor.surname }}</a></td>
+<td class="fit"><button class="btn btn-sm btn-danger" (click)="onDeleteDoctor()">Delete</button></td>

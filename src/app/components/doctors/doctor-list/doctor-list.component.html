@@ -1,6 +1,6 @@
 <div class="d-flex mb-2 justify-content-between align-items-center">
     <div class="d-flex">
-        <h4>Employees</h4>
+        <h4>Doctors</h4>
         <div class="ml-2">
             <a routerLink="create" class="btn btn-sm btn-primary">Add</a>
         </div>
@@ -15,14 +15,14 @@
 <div class="row">
     <div class="col-sm-12">
         <app-loading-spinner></app-loading-spinner>
-        <div *ngIf="employees">
+        <div *ngIf="doctors">
             <table class="table table-striped table-sm">
                 <thead>
                     <th>Name</th>
                     <th colspan="2">Surname</th>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let employee of employees" app-employee-list-item [employee]="employee"></tr>
+                    <tr *ngFor="let doctor of doctors" app-doctor-list-item [doctor]="doctor"></tr>
                 </tbody>
             </table>
             <app-pagination [pager]="pager"></app-pagination>

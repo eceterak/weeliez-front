@@ -14,6 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } from '@angular/material';
 
 @NgModule({
@@ -37,7 +38,8 @@ import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } f
         MatTableModule,
         MatButtonModule,
         MatAutocompleteModule,
-        MatSelectModule
+        MatSelectModule,
+        MatDialogModule
     ],
     exports: [
         SearchComponent,
@@ -57,7 +59,8 @@ import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } f
         MatTableModule,
         MatButtonModule,
         MatAutocompleteModule,
-        MatSelectModule
+        MatSelectModule,
+        MatDialogModule
     ]
 })
 

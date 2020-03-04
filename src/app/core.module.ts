@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { EmployeeService } from './components/employees/employee.service';
+import { DoctorService } from './components/doctors/doctor.service';
 import { ImageService } from './components/images/image.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingSpinnerInterceptor } from './shared/loading-spinner/loading-spinner.interceptor';
@@ -11,7 +11,7 @@ import { CalendarService } from './components/rotas/rota/calendar/calendar.servi
 
 @NgModule({
     providers: [
-        EmployeeService,
+        DoctorService,
         ImageService,
         DepartmentService,
         RotaService,

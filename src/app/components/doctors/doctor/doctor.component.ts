@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Employee } from 'src/app/models/employee.model';
-import { EmployeeService } from '../employee.service';
+import { Doctor } from 'src/app/models/doctor.model';
+import { DoctorService } from '../doctor.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -8,22 +8,25 @@ import { AlertService } from 'src/app/shared/alert/alert.service';
 import { UtilitiesService } from 'src/app/shared/utilities.service';
 import { DepartmentService } from '../../departments/department.service';
 import { Department } from 'src/app/models/department.model';
-import { HttpPaginationResponse } from 'src/app/interfaces/httpPaginationResponse.interface';
+import { HttpDataResponse } from 'src/app/interfaces/httpDataResponse.interface';
 
 @Component({
-  templateUrl: './employee.component.html',
-  styleUrls: ['./employee.component.scss']
+  templateUrl: './doctor.component.html',
+  styleUrls: ['./doctor.component.scss']
 })
-export class EmployeeComponent implements OnInit {
+export class DoctorComponent implements OnInit {
 
     editMode: boolean = false;
-    employeeForm: FormGroup;
-    employee: Employee;
+    doctorForm: FormGroup;
+    doctor: Doctor;
     getErrorMessage = UtilitiesService.getErrorMessage;
     departments: Department[] = [];
+    titles: string[] = [
+        'Dr', 'PhD', 'Ph.D', 'Trainee'
+    ];
 
     constructor(
-        private employeeService: EmployeeService, 
+        private doctorService: DoctorService, 
         private departmentService: DepartmentService,
         private route: ActivatedRoute, 
         private router: Router,
@@ -43,8 +46,8 @@ export class EmployeeComponent implements OnInit {
             }
         );
 
-        this.departmentService.getAllDepartments({}).subscribe(
-            (response: HttpPaginationResponse) => {
+        this.departmentService.getSelectDepartments().subscribe(
+            (response: HttpDataResponse) => {
                 this.departments = response.data;
             },
             (error: HttpErrorResponse) => {
@@ -54,44 +57,42 @@ export class EmployeeComponent implements OnInit {
     }
 
     initForm(id: number) {
-        this.employeeForm = new FormGroup({
+        this.doctorForm = new FormGroup({
             'name': new FormControl(null, [Validators.required, Validators.minLength(2)]),
             'surname': new FormControl(null, [Validators.required, Validators.minLength(2)]),
+            'title': new FormControl(null, [Validators.required]),
             'department': new FormControl(null, [Validators.required])
         });
 
         if(this.editMode) {
-            this.employeeService.getEmployee(id).subscribe(
-                (employee: Employee) => {
-                    this.employee = employee;
+            this.doctorService.getDoctor(id).subscribe(
+                (doctor: Doctor) => {
+                    this.doctor = doctor;
 
-                    this.employeeForm.get('name').setValue(this.employee.name);
-                    this.employeeForm.get('surname').setValue(this.employee.surname);
-                    this.employeeForm.get('department').setValue(this.employee.department);
+                    this.doctorForm.get('name').setValue(this.doctor.name);
+                    this.doctorForm.get('surname').setValue(this.doctor.surname);
+                    this.doctorForm.get('title').setValue(this.doctor.title);
+                    this.doctorForm.get('department').setValue(this.doctor.department);
                 }
             );
         }
     }
 
     onFormSubmit() {
-        console.log(this.employeeForm.value);
-
-        if(this.employeeForm.valid) {
+        if(this.doctorForm.valid) {
             if(this.editMode) {
-                this.employeeService.updateEmployee(this.employee.id, this.employeeForm.value).subscribe(
+                this.doctorService.updateDoctor(this.doctor.id, this.doctorForm.value).subscribe(
                     (_) => {
-                        this.router.navigate(['/employees'], { state: { message: 'Employee updated' } });
+                        this.router.navigate(['/doctors'], { state: { message: 'Doctor updated' } });
                     },
                     (errorResponse: HttpErrorResponse) => {
                         this.setErrors(errorResponse.error.errors);
                     }
                 );
             } else {
-                //const newEmployee = new Employee(null, this.employeeForm.value.name, this.employeeForm.value.surname, new Department(1, 'asd'));
-    
-                this.employeeService.createEmployee(this.employeeForm.value).subscribe(
+                this.doctorService.createDoctor(this.doctorForm.value).subscribe(
                     (_) => {
-                        this.router.navigate(['/employees'], { state: { message: 'Employee created' } });
+                        this.router.navigate(['/doctors'], { state: { message: 'Doctor created' } });
                     },
                     (errorResponse: HttpErrorResponse) => {
                         this.setErrors(errorResponse.error.errors);
@@ -109,8 +110,8 @@ export class EmployeeComponent implements OnInit {
 
     setErrors(errors: object) {
         for(let prop in errors) {
-            if(this.employeeForm.contains(prop)) {
-                this.employeeForm.controls[prop].setErrors({ http: errors[prop] });
+            if(this.doctorForm.contains(prop)) {
+                this.doctorForm.controls[prop].setErrors({ http: errors[prop] });
             }
         }
 

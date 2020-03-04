@@ -21,11 +21,11 @@ export class RotaListItemComponent implements OnInit {
         console.log(this.rota);
     }
 
-    onDeleteEmployee() {
-        // this.rotaService.delet(this.employee.id).subscribe(
+    onDeleteDoctor() {
+        // this.rotaService.delet(this.doctor.id).subscribe(
         //     (_) => {
         //         this.alertService.alert.next({
-        //             messages: 'Employee deleted',
+        //             messages: 'Doctor deleted',
         //             class: 'success'
         //         });
         //     },

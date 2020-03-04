@@ -6,7 +6,7 @@ import { HttpPaginationResponse } from 'src/app/interfaces/httpPaginationRespons
 import { Params } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
 import { HttpDataResponse } from 'src/app/interfaces/httpDataResponse.interface';
-import { Employee } from 'src/app/models/employee.model';
+import { Doctor } from 'src/app/models/doctor.model';
 
 @Injectable()
 
@@ -21,11 +21,10 @@ export class DepartmentService {
 
         return this.http.get<HttpPaginationResponse>('http://127.0.0.1:8001/api/departments?page=' + page, {
             params: httpParams
-        })
-        .pipe(
+        }).pipe(
             map(response => {
                 response.data = response.data.map(args => {
-                    return new Department(args.id, args.name, args.employees);
+                    return new Department(args.id, args.name, args.doctors);
                 });
 
                 return response;
@@ -36,11 +35,22 @@ export class DepartmentService {
         );
     }
 
-    getDepartment(id: number) {
+    getSelectDepartments(): Observable<HttpDataResponse> {
+        return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/departments?clean=1').pipe(
+            map(response => {
+                response.data = response.data.map(args => {
+                    return new Department(args.id, args.name);
+                });
+
+                return response;
+            })
+        );
+    }
+
+    getDepartment(id: number): Observable<Department> {
         return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/departments/' + id)
         .pipe(
             map(response => {
-                console.log(response);
                 const args = response.data;
                 
                 return new Department(args.id, args.name);
@@ -52,7 +62,7 @@ export class DepartmentService {
         return this.http.post('http://127.0.0.1:8001/api/departments', department);
     }
 
-    updateEmployee(id: number, data): Observable<any> {
+    updateDoctor(id: number, data): Observable<any> {
         return this.http.patch('http://127.0.0.1:8001/api/departments/' + id, data);
     }
 
@@ -69,15 +79,18 @@ export class DepartmentService {
         return this.http.delete('http://127.0.0.1:8001/api/departments/' + id);
     }
 
-    getEmployees(id: number): Observable<Employee[]> {
-        return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/departments/' + id + '/employees')
+    getDoctors(id: number): Observable<Doctor[]> {
+        return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/departments/' + id + '/doctors')
         .pipe(
             map(response => {
+                console.log(response);
+
                 let data = response.data.map((args: any) => {
-                    return new Employee(
+                    return new Doctor(
                         args.id, 
                         args.name,
-                        args.surname
+                        args.surname,
+                        args.title
                     );
                 });
 
