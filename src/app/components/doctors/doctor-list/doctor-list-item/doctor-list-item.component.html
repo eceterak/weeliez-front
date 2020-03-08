@@ -1,5 +1,3 @@
-<!-- <td><a [routerLink]="['/doctors', doctor.id]">{{ doctor.name }}</a></td>
-<td><a [routerLink]="['/doctors', doctor.id]">{{ doctor.surname }}</a></td> -->
-<td><a (click)="onEditDoctor()">{{ doctor.name }}</a></td>
-<td><a [routerLink]="['/doctors', doctor.id]">{{ doctor.surname }}</a></td>
-<td class="fit"><button class="btn btn-sm btn-danger" (click)="onDeleteDoctor()">Delete</button></td>
+<td colspan="2"><a (click)="onEditDoctor()" class="pointer text-primary">{{ doctor.getFullName() }}</a></td>
+<td>{{ doctor.department.name }}</td>
+<td class="fit"><button mat-flat-button color="warn" (click)="onDeleteDoctor()">Delete</button></td>

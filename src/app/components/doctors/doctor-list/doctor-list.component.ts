@@ -7,14 +7,17 @@ import { HttpPaginationResponse } from 'src/app/interfaces/httpPaginationRespons
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { AlertService } from 'src/app/shared/alert/alert.service';
 import { PagerInterface } from 'src/app/interfaces/pager.interface';
+import { MatDialog } from '@angular/material';
+import { DoctorDialogComponent } from '../doctor-dialog/doctor-dialog.component';
 
 @Component({
   templateUrl: './doctor-list.component.html',
   styleUrls: ['./doctor-list.component.scss']
 })
+
 export class DoctorListComponent implements OnInit, OnDestroy, AfterContentChecked {
 
-    doctors: Doctor[] = [];
+    doctors: Doctor[];
     doctorsSubscription: Subscription;
     pager: PagerInterface;
 
@@ -22,7 +25,8 @@ export class DoctorListComponent implements OnInit, OnDestroy, AfterContentCheck
         private doctorService: DoctorService,
         private route: ActivatedRoute,
         private router: Router,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private dialog: MatDialog
     ) {}
 
     ngOnInit() {
@@ -57,7 +61,8 @@ export class DoctorListComponent implements OnInit, OnDestroy, AfterContentCheck
             (response: HttpPaginationResponse) => {
                 this.pager = {
                     links: response.links,
-                    meta: response.meta
+                    meta: response.meta,
+                    route: '/doctors'
                 }
 
                 this.doctors = response.data;
@@ -83,6 +88,14 @@ export class DoctorListComponent implements OnInit, OnDestroy, AfterContentCheck
             relativeTo: this.route,
             queryParams: params || {}
         });
+    }
 
+    onAddDoctor() {
+        this.dialog.open(DoctorDialogComponent, {
+            width: '800px',
+            position: { 
+                top: '50px' 
+            }
+        });
     }
 }

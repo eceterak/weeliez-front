@@ -1,2 +1,2 @@
-<td><a [routerLink]="['/departments', department.id]">{{ department.name }}</a></td>
-<td class="fit"><button class="btn btn-sm btn-danger" (click)="onDeleteDepartment()">Delete</button></td>
+<td><a (click)="onEditDepartment()" class="pointer text-primary">{{ department.name }}</a></td>
+<td class="fit"><button mat-flat-button color="warn" (click)="onDeleteDepartment()">Delete</button></td>

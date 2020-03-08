@@ -14,4 +14,8 @@ export class Doctor {
         this.title = title;
         this.department = department;
     }
+
+    getFullName() {
+        return this.title + ' ' + this.name + ' ' + this.surname;
+    }
 }

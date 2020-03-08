@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Department } from 'src/app/models/department.model';
 import { DepartmentService } from '../../department.service';
-import { AlertService } from 'src/app/shared/alert/alert.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { DepartmentDialogComponent } from '../../department-dialog/department-dialog.component';
 
 @Component({
   selector: '[app-department-list-item]',
@@ -15,20 +16,30 @@ export class DepartmentListItemComponent {
 
     constructor(
         private departmentService: DepartmentService,
-        private alertService: AlertService
+        private dialog: MatDialog,
+        private snackBar: MatSnackBar
     ) {}
 
     onDeleteDepartment() {
         this.departmentService.deleteDepartment(this.department.id).subscribe(
             (_) => {
-                this.alertService.alert.next({
-                    messages: 'Department deleted',
-                    class: 'success'
+                this.snackBar.open('Department deleted', '', {
+                    horizontalPosition: 'right'
                 });
             },
             (errorResponse: HttpErrorResponse) => {
                 console.log(errorResponse);
             }
         );
+    }
+
+    onEditDepartment() {
+        this.dialog.open(DepartmentDialogComponent, {
+            width: '800px',
+            data: this.department.id,
+            position: { 
+                top: '50px' 
+            }
+        });
     }
 }

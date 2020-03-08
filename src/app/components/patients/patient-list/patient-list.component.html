@@ -1,0 +1,30 @@
+<div class="d-flex mb-2 justify-content-between align-items-center">
+    <div class="d-flex">
+        <h4>Patients</h4>
+        <div class="ml-2">
+            <button mat-flat-button color="primary" (click)="onAddPatient()">Add</button>
+        </div>
+    </div>
+    <div>
+        <app-search (searchTermUpdate)="onSearchTermUpdate($event)"></app-search>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <!-- <app-loading-spinner></app-loading-spinner> -->
+        <div *ngIf="patients">
+            <table class="table table-striped">
+                <thead>
+                    <th colspan="2">Name</th>
+                    <th>Date of birth</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let patient of patients" app-patient-list-item [patient]="patient"></tr>
+                </tbody>
+            </table>
+            <app-pagination [pager]="pager"></app-pagination>
+        </div>
+    </div>
+</div>
+    

@@ -7,6 +7,8 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { AlertService } from 'src/app/shared/alert/alert.service';
 import { HttpPaginationResponse } from 'src/app/interfaces/httpPaginationResponse.interface';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DepartmentDialogComponent } from '../department-dialog/department-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   templateUrl: './department-list.component.html',
@@ -22,7 +24,8 @@ export class DepartmentListComponent implements OnInit {
         private departmentService: DepartmentService,
         private route: ActivatedRoute,
         private router: Router,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private dialog: MatDialog
     ) {}
 
     ngOnInit() {
@@ -58,7 +61,8 @@ export class DepartmentListComponent implements OnInit {
             (response: HttpPaginationResponse) => {
                 this.pager = {
                     links: response.links,
-                    meta: response.meta
+                    meta: response.meta,
+                    route: 'departments'
                 }
 
                 this.departments = response.data;
@@ -67,6 +71,15 @@ export class DepartmentListComponent implements OnInit {
                 console.log(error);
             }
         );
+    }
+
+    onAddDepartment() {
+        this.dialog.open(DepartmentDialogComponent, {
+            width: '800px',
+            position: { 
+                top: '50px' 
+            }
+        });
     }
 
 }

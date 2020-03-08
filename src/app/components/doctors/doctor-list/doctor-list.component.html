@@ -2,7 +2,7 @@
     <div class="d-flex">
         <h4>Doctors</h4>
         <div class="ml-2">
-            <a routerLink="create" class="btn btn-sm btn-primary">Add</a>
+            <button mat-flat-button color="primary" (click)="onAddDoctor()">Add</button>
         </div>
     </div>
     <div>
@@ -14,12 +14,12 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <app-loading-spinner></app-loading-spinner>
+        <!-- <app-loading-spinner></app-loading-spinner> -->
         <div *ngIf="doctors">
-            <table class="table table-striped table-sm">
+            <table class="table table-striped">
                 <thead>
-                    <th>Name</th>
-                    <th colspan="2">Surname</th>
+                    <th colspan="2">Name</th>
+                    <th>Department</th>
                 </thead>
                 <tbody>
                     <tr *ngFor="let doctor of doctors" app-doctor-list-item [doctor]="doctor"></tr>

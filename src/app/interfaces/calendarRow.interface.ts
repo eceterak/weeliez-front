@@ -1,11 +1,13 @@
 import { Doctor } from '../models/doctor.model';
 
 export class CalendarRow {
-    public doctor: Doctor;
-    public appo: any;
+    public date: string;
+    public slots: number[];
+    public isAvailable: boolean;
 
-    constructor(doctor: Doctor, appo: any) {
-        this.doctor = doctor;
-        this.appo = appo;
+    constructor(date: string, slots: number[], isAvailable?: boolean) {
+        this.date = date;
+        this.slots = slots;
+        this.isAvailable = isAvailable;
     }
 }

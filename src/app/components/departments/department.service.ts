@@ -59,11 +59,37 @@ export class DepartmentService {
     }
 
     createDepartment(department: Department): Observable<any> {
-        return this.http.post('http://127.0.0.1:8001/api/departments', department);
+        return this.http.post('http://127.0.0.1:8001/api/departments', department).pipe(
+            tap(response => {
+                const args = response.data;
+                
+                this.departments.push(new Department(
+                    args.id, 
+                    args.name
+                ));
+
+                this.departmentsChanged.next(this.departments);
+            })
+        );
     }
 
-    updateDoctor(id: number, data): Observable<any> {
-        return this.http.patch('http://127.0.0.1:8001/api/departments/' + id, data);
+    updateDepartment(id: number, data): Observable<any> {
+        return this.http.patch('http://127.0.0.1:8001/api/departments/' + id, data).pipe(
+            tap(response => {
+                const args = response.data;
+                
+                const department = new Department(args.id, args.name);
+
+                const position = this.departments.findIndex( 
+                    (departmentEl: Department) => {
+                        return departmentEl.id === department.id;
+                    }
+                )
+
+                this.departments[position] = department;
+                this.departmentsChanged.next(this.departments);
+            })
+        );
     }
 
     deleteDepartment(id: number): Observable<any> {
@@ -80,11 +106,8 @@ export class DepartmentService {
     }
 
     getDoctors(id: number): Observable<Doctor[]> {
-        return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/departments/' + id + '/doctors')
-        .pipe(
+        return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/departments/' + id + '/doctors').pipe(
             map(response => {
-                console.log(response);
-
                 let data = response.data.map((args: any) => {
                     return new Doctor(
                         args.id, 
@@ -96,6 +119,6 @@ export class DepartmentService {
 
                 return data;
             })
-        )
+        );
     }
 }

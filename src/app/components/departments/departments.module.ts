@@ -3,18 +3,19 @@ import { DepartmentListComponent } from './department-list/department-list.compo
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DepartmentsRoutingModule } from './departments-routing.module';
 import { DepartmentListItemComponent } from './department-list/department-list-item/department-list-item.component';
-import { DepartmentComponent } from './department/department.component';
+import { DepartmentDialogComponent } from './department-dialog/department-dialog.component';
 
 @NgModule({
     declarations: [
         DepartmentListComponent,
         DepartmentListItemComponent,
-        DepartmentComponent
+        DepartmentDialogComponent
     ],
     imports: [
         SharedModule,
         DepartmentsRoutingModule
-    ]
+    ],
+    entryComponents: [ DepartmentDialogComponent ]
 })
 
 export class DepartmentsModule {}

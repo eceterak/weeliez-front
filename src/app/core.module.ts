@@ -6,19 +6,38 @@ import { LoadingSpinnerInterceptor } from './shared/loading-spinner/loading-spin
 import { AuthInterceptor } from './components/auth/auth.interceptor';
 import { UtilitiesService } from './shared/utilities.service';
 import { DepartmentService } from './components/departments/department.service';
-import { RotaService } from './components/rotas/rota.service';
-import { CalendarService } from './components/rotas/rota/calendar/calendar.service';
+import { CalendarService } from './components/appointments/rota/calendar/calendar.service';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { AppointmentService } from './components/appointments/appointment.service';
+import { PatientService } from './components/patients/patient.service';
 
 @NgModule({
     providers: [
         DoctorService,
         ImageService,
         DepartmentService,
-        RotaService,
+        PatientService,
         CalendarService,
+        AppointmentService,
         UtilitiesService,
         { provide: HTTP_INTERCEPTORS, useClass: LoadingSpinnerInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
+        { provide: DateAdapter, useClass: MomentDateAdapter },
+        { 
+            provide: MAT_DATE_FORMATS, useValue: {
+                parse: {
+                    dateInput: ['l', 'LL'],
+                },
+                display: {
+                    dateInput: 'YYYY-MM-DD',
+                    monthYearLabel: 'MMM YYYY',
+                    dateA11yLabel: 'LL',
+                    monthYearA11yLabel: 'MMMM YYYY'
+                }
+            } 
+        },
     ],
 })
 

@@ -1,0 +1,27 @@
+<table class="table table-bordered table-sm mt-2" *ngIf="table">
+    <thead>
+        <tr class="table-primary">
+            <th></th>
+            <th *ngFor="let slot of slots">
+                {{ slot }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of table">
+            <td>{{ row.date }}</td>
+            <td *ngFor="let slot of row.slots; let s = index">
+                <div *ngIf="slot == 1">
+                    <button mat-flat-button color="primary" (click)="onManageAppointment(s, row.date)">
+                        <mat-icon>check</mat-icon>
+                    </button>
+                </div>
+                <div *ngIf="slot != 1">
+                    <button mat-flat-button color="warn" (click)="onManageAppointment(s, row.date)">
+                        <mat-icon>av_timer</mat-icon>  
+                    </button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

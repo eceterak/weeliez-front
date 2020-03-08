@@ -1,0 +1,27 @@
+<app-loading-spinner [isLoading]="editMode"></app-loading-spinner>
+<app-alert></app-alert>
+<div mat-dialog-content>
+    <div class="row">
+        <div class="col-6">
+            <h1 mat-dialog-title>{{ editMode ? 'Edit department' : 'Create department' }}</h1>
+            <form [formGroup]="departmentForm" (ngSubmit)="onFormSubmit()" class="validation">
+                <mat-form-field appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input type="text" matInput formControlName="name">
+                    <mat-error *ngIf="departmentForm.get('name').invalid">{{ getErrorMessage(departmentForm.get('name')) }}</mat-error>
+                </mat-form-field>
+                <button mat-flat-button color="primary">Save</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <h1 mat-dialog-title>Services</h1>
+            <ul class="list-group">
+                <li class="list-group-item">Vadasd</li>
+                <li class="list-group-item">Vadasd</li>
+                <li class="list-group-item">Vadasd</li>
+                <li class="list-group-item">Vadasd</li>
+                <li class="list-group-item">Vadasd</li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<h1 mat-dialog-title class="mb-0">dr. Marek Bartula</h1>
+<p class="small">Manage appointments</p>
+<mat-dialog-content>
+    <div>
+        <h5>New appointment</h5>
+        <form [formGroup]="appointmentForm">
+            <mat-form-field appearance="outline">
+                <mat-label>Patient</mat-label>
+                <input type="text" matInput [matAutocomplete]="patient" formControlName="patient">
+                <mat-autocomplete #patient="matAutocomplete">
+                    <mat-option value="123">asda</mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Service</mat-label>
+                <input type="text" matInput [matAutocomplete]="service" formControlName="service">
+                <mat-autocomplete #service="matAutocomplete">
+                    <mat-option value="123">Big surgery</mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Time</mat-label>
+                <mat-select formControlName="time">
+                    <mat-option>10:00</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-flat-button color="primary" (click)="onFormSubmit()">Save</button>
+    <button mat-flat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

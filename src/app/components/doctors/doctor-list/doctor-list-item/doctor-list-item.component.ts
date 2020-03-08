@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Doctor } from 'src/app/models/doctor.model';
 import { DoctorService } from '../../doctor.service';
-import { AlertService } from 'src/app/shared/alert/alert.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatDialog } from '@angular/material';
-import { DoctorComponent } from '../../doctor/doctor.component';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { DoctorDialogComponent } from '../../doctor-dialog/doctor-dialog.component';
 
 @Component({
   selector: '[app-doctor-list-item]',
@@ -16,17 +15,16 @@ export class DoctorListItemComponent {
     @Input() doctor: Doctor;
 
     constructor(
-        private doctorService: DoctorService, 
-        private alertService: AlertService,
-        private dialog: MatDialog
+        private doctorService: DoctorService,
+        private dialog: MatDialog,
+        private snackBar: MatSnackBar
     ) {}
 
     onDeleteDoctor() {
         this.doctorService.deleteDoctor(this.doctor.id).subscribe(
             (_) => {
-                this.alertService.alert.next({
-                    messages: 'Doctor deleted',
-                    class: 'success'
+                this.snackBar.open('Doctor deleted', '', {
+                    horizontalPosition: 'right'
                 });
             },
             (errorResponse: HttpErrorResponse) => {
@@ -36,10 +34,11 @@ export class DoctorListItemComponent {
     }
 
     onEditDoctor() {
-        this.dialog.open(DoctorComponent, {
+        this.dialog.open(DoctorDialogComponent, {
             width: '800px',
-            data: {
-                doc: this.doctor
+            data: this.doctor.id,
+            position: { 
+                top: '50px' 
             }
         });
     }

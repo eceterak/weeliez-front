@@ -15,6 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } from '@angular/material';
 
 @NgModule({
@@ -39,7 +42,11 @@ import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } f
         MatButtonModule,
         MatAutocompleteModule,
         MatSelectModule,
-        MatDialogModule
+        MatDialogModule,
+        MatSnackBarModule,
+        MatDatepickerModule,
+        MatMomentDateModule
+        
     ],
     exports: [
         SearchComponent,
@@ -60,7 +67,10 @@ import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } f
         MatButtonModule,
         MatAutocompleteModule,
         MatSelectModule,
-        MatDialogModule
+        MatDialogModule,
+        MatSnackBarModule,
+        MatDatepickerModule,
+        MatMomentDateModule
     ]
 })
 

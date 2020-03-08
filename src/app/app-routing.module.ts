@@ -9,9 +9,10 @@ const routes: Routes = [
         component: LayoutComponent, 
         canActivate: [AuthGuard], 
         children: [
-            { path: 'shift-planner', loadChildren: () => import('./components/rotas/rotas.module').then(m => m.RotasModule) },
+            { path: 'appointments', loadChildren: () => import('./components/appointments/appointments.module').then(m => m.AppointmentsModule) },
             { path: 'doctors', loadChildren: () => import('./components/doctors/doctors.module').then(m => m.DoctorsModule) },
-            { path: 'departments', loadChildren: () => import('./components/departments/departments.module').then(m => m.DepartmentsModule) }
+            { path: 'departments', loadChildren: () => import('./components/departments/departments.module').then(m => m.DepartmentsModule) },
+            { path: 'patients', loadChildren: () => import('./components/patients/patients.module').then(m => m.PatientsModule) },
         ] 
     },
     { path: 'login', loadChildren: () => import('./components/auth/auth.module').then(m => m.AuthModule) },

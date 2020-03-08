@@ -2,7 +2,7 @@
     <ul class="pagination">
         <li class="page-item" *ngIf="pager.links.prev">
             <a class="page-link" 
-                routerLink="/admin/doctors" 
+                [routerLink]="pager.route" 
                 [queryParams]="{ page: pager.meta.current_page - 1 }" 
                 queryParamsHandling="merge">Prev</a>
         </li>
@@ -29,7 +29,7 @@
         </li> -->
         <li class="page-item" *ngIf="pager.links.next">
             <a class="page-link" 
-                routerLink="/admin/doctors" 
+                [routerLink]="pager.route"
                 [queryParams]="{ page: pager.meta.current_page + 1 }" 
                 queryParamsHandling="merge">Next</a>
         </li>

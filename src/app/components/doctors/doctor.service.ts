@@ -67,11 +67,46 @@ export class DoctorService {
     }
 
     createDoctor(data: any): Observable<any> {
-        return this.http.post('http://127.0.0.1:8001/api/doctors', data);
+        return this.http.post('http://127.0.0.1:8001/api/doctors', data).pipe(
+            tap(response => {
+                const args = response.data;
+                
+                this.doctors.push(new Doctor(
+                    args.id, 
+                    args.name,
+                    args.surname,
+                    args.title,
+                    new Department(args.department.id, args.department.name)
+                ));
+
+                this.doctorsChanged.next(this.doctors);
+            })
+        );
     }
 
-    updateDoctor(id: number, data): Observable<any> {
-        return this.http.patch('http://127.0.0.1:8001/api/doctors/' + id, data);
+    updateDoctor(id: number, data: any): Observable<any> {
+        return this.http.patch<HttpDataResponse>('http://127.0.0.1:8001/api/doctors/' + id, data).pipe(
+            tap(response => {
+                const args = response.data;
+                
+                const doctor = new Doctor(
+                    args.id, 
+                    args.name,
+                    args.surname,
+                    args.title,
+                    new Department(args.department.id, args.department.name)
+                );
+
+                const position = this.doctors.findIndex( 
+                    (doctorEl: Doctor) => {
+                        return doctorEl.id === doctor.id;
+                    }
+                )
+
+                this.doctors[position] = doctor;
+                this.doctorsChanged.next(this.doctors);
+            })
+        );
     }
 
     deleteDoctor(id: number): Observable<any> {

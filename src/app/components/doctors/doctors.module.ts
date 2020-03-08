@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { DoctorListItemComponent } from './doctor-list/doctor-list-item/doctor-list-item.component';
 import { DoctorListComponent } from './doctor-list/doctor-list.component';
-import { DoctorComponent } from './doctor/doctor.component';
+import { DoctorDialogComponent } from './doctor-dialog/doctor-dialog.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DoctorRoutingModule } from './doctor-routing.module';
 
@@ -9,12 +9,13 @@ import { DoctorRoutingModule } from './doctor-routing.module';
     declarations: [
         DoctorListItemComponent,
         DoctorListComponent,
-        DoctorComponent,
+        DoctorDialogComponent
     ],
     imports: [
         SharedModule,
         DoctorRoutingModule
-    ]
+    ],
+    entryComponents: [ DoctorDialogComponent ]
 })
 
 export class DoctorsModule {}
