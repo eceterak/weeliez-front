@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
         if(this.loginForm.valid) { 
             this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(
                 (_) => {
-                    this.router.navigate(['/doctors']);
+                    this.router.navigate(['/appointments']);
                 },
                 (errorResponse: HttpErrorResponse) => {
                     console.log(errorResponse);

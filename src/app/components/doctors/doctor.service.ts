@@ -8,6 +8,8 @@ import { ImageService } from '../images/image.service';
 import { Doctor } from 'src/app/models/doctor.model';
 import { HttpPaginationResponse } from 'src/app/interfaces/httpPaginationResponse.interface';
 import { Department } from 'src/app/models/department.model';
+import { environment } from './../../../environments/environment';
+import { Image } from 'src/app/models/image.model';
 
 @Injectable()
 
@@ -23,7 +25,7 @@ export class DoctorService {
     getAllDoctors(httpParams: Params): Observable<HttpPaginationResponse> {
         const page = httpParams.page || 1;
 
-        return this.http.get<HttpPaginationResponse>('http://127.0.0.1:8001/api/doctors?page=' + page, {
+        return this.http.get<HttpPaginationResponse>(environment.api + 'doctors?page=' + page, {
             params: httpParams
         })
         .pipe(
@@ -47,27 +49,28 @@ export class DoctorService {
     }
 
     getDoctor(id: number): Observable<Doctor> {
-        return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/doctors/' + id)
+        return this.http.get<HttpDataResponse>(environment.api + 'doctors/' + id)
             .pipe(
                 map(response => {
                     console.log(response);
                     const args = response.data;
 
-                    this.imageService.setImages(args.images);
+                    const image = args.images[0] ? new Image(args.images[0].id, args.images[0].url, args.images[0].owner_id, args.images[0].owner_type) : null;
                     
                     return new Doctor(
                         args.id, 
                         args.name,
                         args.surname,
                         args.title,
-                        new Department(args.department.id, args.department.name)
+                        new Department(args.department.id, args.department.name),
+                        image
                     );
                 })
             );
     }
 
     createDoctor(data: any): Observable<any> {
-        return this.http.post('http://127.0.0.1:8001/api/doctors', data).pipe(
+        return this.http.post(environment.api + 'doctors', data).pipe(
             tap(response => {
                 const args = response.data;
                 
@@ -85,7 +88,7 @@ export class DoctorService {
     }
 
     updateDoctor(id: number, data: any): Observable<any> {
-        return this.http.patch<HttpDataResponse>('http://127.0.0.1:8001/api/doctors/' + id, data).pipe(
+        return this.http.patch<HttpDataResponse>(environment.api + 'doctors/' + id, data).pipe(
             tap(response => {
                 const args = response.data;
                 
@@ -119,6 +122,6 @@ export class DoctorService {
         this.doctors.splice(position, 1);
         this.doctorsChanged.next(this.doctors);
 
-        return this.http.delete('http://127.0.0.1:8001/api/doctors/' + id);
+        return this.http.delete(environment.api + 'doctors/' + id);
     }
 }

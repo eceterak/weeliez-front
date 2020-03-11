@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Image } from 'src/app/models/image.model';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 
 export class ImageService {
     private images: Image[] = [];
-    imagesChanged = new Subject<Image[]>();
+    imagesChanged = new Subject<Image[] | null>();
 
     constructor(private http: HttpClient) {}
 
@@ -18,9 +19,9 @@ export class ImageService {
         data.append('owner_id', ownerId.toString());
         data.append('owner_type', ownerType);
 
-        return this.http.post<Image>('http://127.0.0.1:8001/api/admin/images', data).pipe(
+        return this.http.post<Image>(environment.api + 'images', data).pipe(
             tap(image => {
-                this.images.push(image);
+                this.images.push(new Image(image.id, image.url, image.owner_id, image.owner_type));
 
                 this.imagesChanged.next(this.images);
             })
@@ -28,20 +29,15 @@ export class ImageService {
     }
 
     deleteImage(id: number): Observable<any> {
-        const position = this.images.findIndex( 
-            (imageEl: Image) => {
-                return imageEl.id === id;
-            }
-        )
+        this.imagesChanged.next(null);
 
-        this.images.splice(position, 1);
-        this.imagesChanged.next(this.images);
-
-        return this.http.delete('http://127.0.0.1:8001/api/admin/images/' + id);
+        return this.http.delete(environment.api + 'images/' + id);
     }
 
     setImages(images: Image[]) {
-        this.images = images;
+        images.forEach(image => {
+            this.images.push(new Image(image.id, image.url, image.owner_id, image.owner_type));
+        });
 
         this.imagesChanged.next(this.images);
     }

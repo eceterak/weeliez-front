@@ -60,6 +60,7 @@ export class DoctorDialogComponent implements OnInit {
 
             this.doctorService.getDoctor(this.id).subscribe(
                 (doctor: Doctor) => {
+                    console.log(doctor);
                     this.doctor = doctor;
 
                     this.doctorForm.get('name').setValue(this.doctor.name);

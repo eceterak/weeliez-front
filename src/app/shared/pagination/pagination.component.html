@@ -1,10 +1,10 @@
-<nav aria-label="navigation" *ngIf="pager && pager.meta.last_page > 1">
-    <ul class="pagination">
+<nav aria-label="navigation" *ngIf="pager && pager.meta.last_page > 1" class="d-flex justify-content-center">
+    <ul class="pagination mb-0">
         <li class="page-item" *ngIf="pager.links.prev">
             <a class="page-link" 
                 [routerLink]="pager.route" 
                 [queryParams]="{ page: pager.meta.current_page - 1 }" 
-                queryParamsHandling="merge">Prev</a>
+                queryParamsHandling="merge"><mat-icon>navigate_before</mat-icon></a>
         </li>
         <li class="page-item active">
             <a class="page-link">{{ pager.meta.current_page }}</a>
@@ -31,7 +31,7 @@
             <a class="page-link" 
                 [routerLink]="pager.route"
                 [queryParams]="{ page: pager.meta.current_page + 1 }" 
-                queryParamsHandling="merge">Next</a>
+                queryParamsHandling="merge"><mat-icon>navigate_next</mat-icon></a>
         </li>
     </ul>
 </nav>

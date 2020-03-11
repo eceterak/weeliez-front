@@ -1,27 +1,23 @@
 import { NgModule } from '@angular/core';
-import { RotaComponent } from './rota/rota.component';
+import { AppointmentManagerComponent } from './appointment-manager/appointment-manager.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AppointmentsRoutingModule } from './appointments-routing.module';
-import { CalendarComponent } from './rota/calendar/calendar.component';
-import { CalendarDayComponent } from './rota/calendar/calendar-day/calendar-day.component';
-import { CalendarMonthPickerComponent } from './rota/calendar-month-picker/calendar-month-picker.component';
-import { AppointmentModalComponent } from './appointment-modal/appointment-modal.component';
+import { CalendarComponent } from './appointment-manager/calendar/calendar.component';
+import { CalendarMonthPickerComponent } from './appointment-manager/calendar-month-picker/calendar-month-picker.component';
+import { AppointmentDialogComponent } from './appointment-dialog/appointment-dialog.component';
 
 @NgModule({  
     declarations: [
-        RotaComponent,
+        AppointmentManagerComponent,
         CalendarMonthPickerComponent,
         CalendarComponent,
-        CalendarDayComponent,
-        AppointmentModalComponent
+        AppointmentDialogComponent
     ],
     imports: [
         SharedModule,
         AppointmentsRoutingModule
     ],
-    entryComponents: [
-        AppointmentModalComponent
-    ]
+    entryComponents: [ AppointmentDialogComponent ]
 })
 
 export class AppointmentsModule {}

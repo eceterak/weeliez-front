@@ -63,7 +63,8 @@ export class PatientDialogComponent implements OnInit {
 
     onFormSubmit(): void {
         if(this.patientForm.valid) {
-            //console.log(this.datePipe.transform(this.patientForm.get('dateOfBirth').value, 'dd-MM-yyyy'));
+            const date = this.patientForm.get('dateOfBirth').value;
+            this.patientForm.get('dateOfBirth').setValue(date.format('YYYY-MM-DD'));
 
             if(this.editMode) {
                 this.patientService.updatePatient(this.patient.id, this.patientForm.value).subscribe(
@@ -90,7 +91,6 @@ export class PatientDialogComponent implements OnInit {
                         this.dialogRef.close();
                     },
                     (errorResponse: HttpErrorResponse) => {
-                        console.log(errorResponse);
                         this.setErrors(errorResponse.error.errors);
                     }
                 );

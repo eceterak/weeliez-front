@@ -36,7 +36,7 @@ export class PatientListItemComponent {
 
     onEditPatient() {
         this.dialog.open(PatientDialogComponent, {
-            width: '800px',
+            width: '600px',
             data: this.patient.id,
             position: { 
                 top: '50px' 

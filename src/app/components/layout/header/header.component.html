@@ -10,8 +10,11 @@
             <a class="nav-link" routerLink="/doctors">Doctors</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/services">Services</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="/patients">Patients</a>
         </li>
     </ul>
-    <button mat-flat-button color="primary" (click)="onLogout()">Logout</button>
+    <button mat-icon-button (click)="onLogout()"><mat-icon>exit_to_app</mat-icon></button>
 </nav>

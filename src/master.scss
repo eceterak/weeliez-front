@@ -3,6 +3,14 @@
     vertical-align: middle;
 }
 
+/* Buttons */
+.mat-btn-sm {
+    line-height: 28px;
+    min-width: 34px;
+    padding: 0 12px;
+    font-size: 13px;
+}
+
 .table .fit {
     width: 1px;
     white-space: nowrap;

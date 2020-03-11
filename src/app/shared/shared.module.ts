@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } from '@angular/material';
 
 @NgModule({
@@ -45,8 +46,8 @@ import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } f
         MatDialogModule,
         MatSnackBarModule,
         MatDatepickerModule,
-        MatMomentDateModule
-        
+        MatMomentDateModule,
+        MatToolbarModule
     ],
     exports: [
         SearchComponent,
@@ -70,7 +71,8 @@ import { MatFormFieldModule, MatInputModule, MatTableModule, MatButtonModule } f
         MatDialogModule,
         MatSnackBarModule,
         MatDatepickerModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        MatToolbarModule
     ]
 })
 

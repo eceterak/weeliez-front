@@ -1,21 +1,14 @@
-<div class="d-flex mb-2 justify-content-between align-items-center">
-    <div class="d-flex">
-        <h4>Departments</h4>
-        <div class="ml-2">
-            <button mat-flat-button color="primary" (click)="onAddDepartment()">Add</button>
-        </div>
+<mat-toolbar class="mb-4">
+    <h4>Departments</h4>
+    <div class="ml-2">
+        <button mat-flat-button color="primary" (click)="onAddDepartment()">Add</button>
     </div>
-    <div>
-        <app-search (searchTermUpdate)="onSearchTermUpdate($event)"></app-search>
-    </div>
-</div>
+</mat-toolbar>
 
-<app-alert></app-alert>
-
-<div class="row">
-    <div class="col-sm-12">
-        <div *ngIf="departments">
-            <table class="table table-striped">
+<div *ngIf="departments">
+    <mat-card>
+        <mat-card-content>
+            <table class="table table-borderless mb-0">
                 <thead>
                     <th colspan="2">Name</th>
                 </thead>
@@ -24,7 +17,6 @@
                 </tbody>
             </table>
             <app-pagination [pager]="pager"></app-pagination>
-        </div>
-    </div>
+        </mat-card-content>
+    </mat-card>
 </div>
-    

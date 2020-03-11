@@ -1,4 +1,4 @@
-<div [formGroup]="pickerForm" class="validation">
+<div [formGroup]="pickerForm" class="validation" id="calendar-month-picker">
     <div class="row">
         <div class="col-4">
             <mat-form-field appearance="outline">
@@ -6,7 +6,6 @@
                 <mat-select formControlName="department">
                     <mat-option *ngFor="let department of departments" [value]="department">{{ department.name }}</mat-option>
                 </mat-select>
-                
                 <mat-error *ngIf="pickerForm.get('department').invalid">{{ getErrorMessage(pickerForm.get('department')) }}</mat-error>
             </mat-form-field>
         </div>

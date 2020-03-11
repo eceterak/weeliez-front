@@ -4,8 +4,8 @@
 <h1 mat-dialog-title>{{ editMode ? 'Edit doctor' : 'Create doctor' }}</h1>
 <div mat-dialog-content>
     <div class="row">
-        <div class="col-7">
-            <form [formGroup]="doctorForm" (ngSubmit)="onFormSubmit()" class="validation">
+        <div [ngClass]="doctor ? 'col-7' : 'col-12'">
+            <form [formGroup]="doctorForm" class="validation">
                 <mat-form-field appearance="outline">
                     <mat-label>Name</mat-label>
                     <input type="text" matInput formControlName="name">
@@ -33,11 +33,14 @@
                         {{ department.name }}
                     </mat-option>
                 </mat-autocomplete>
-                <button mat-flat-button color="primary">Save</button>
             </form>
         </div>
-        <!-- <div class="col-5">
-            <app-image-gallery [ownerId]="doctor.id" [ownerType]="'doctor'"></app-image-gallery>
-        </div> -->
+        <div class="col-5" *ngIf="doctor">
+            <app-image-gallery [ownerId]="doctor.id" [ownerType]="'doctor'" [image]="doctor.image"></app-image-gallery>
+        </div>
     </div>
 </div>
+<mat-dialog-actions class="mb-1">
+    <button mat-flat-button color="primary" (click)="onFormSubmit()">Save</button>
+    <button mat-stroked-button color="basic" mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

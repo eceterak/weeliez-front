@@ -92,7 +92,7 @@ export class DoctorListComponent implements OnInit, OnDestroy, AfterContentCheck
 
     onAddDoctor() {
         this.dialog.open(DoctorDialogComponent, {
-            width: '800px',
+            width: '600px',
             position: { 
                 top: '50px' 
             }

@@ -16,7 +16,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.searchForm = new FormGroup({
-            name: new FormControl()
+            surname: new FormControl()
         });
 
         this.valueChangesSubscription = this.searchForm.valueChanges

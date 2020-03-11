@@ -75,7 +75,7 @@ export class DepartmentListComponent implements OnInit {
 
     onAddDepartment() {
         this.dialog.open(DepartmentDialogComponent, {
-            width: '800px',
+            width: '600px',
             position: { 
                 top: '50px' 
             }

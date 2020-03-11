@@ -82,7 +82,7 @@ export class PatientListComponent implements OnInit, OnDestroy {
 
     onAddPatient() {
         this.dialog.open(PatientDialogComponent, {
-            width: '800px',
+            width: '600px',
             position: { 
                 top: '50px' 
             }

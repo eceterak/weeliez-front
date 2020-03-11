@@ -22,6 +22,7 @@ export class ImageUploadComponent {
 
     onFileChange(e: any): void {
         const files = e.target.files;
+        console.log(files);
 
         if(files.length > 0) {
             for(let i = 0; i < files.length; i++) {

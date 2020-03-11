@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { DepartmentService } from 'src/app/components/departments/department.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -12,10 +12,12 @@ import { empty } from 'rxjs';
 import { AppointmentService } from '../../appointment.service';
 
 @Component({
-  selector: 'app-calendar-month-picker',
-  templateUrl: './calendar-month-picker.component.html',
-  styleUrls: ['./calendar-month-picker.component.scss']
+    selector: 'app-calendar-month-picker',
+    encapsulation: ViewEncapsulation.None,
+    templateUrl: './calendar-month-picker.component.html',
+    styleUrls: ['./calendar-month-picker.component.scss']
 })
+
 export class CalendarMonthPickerComponent implements OnInit {
     pickerForm: FormGroup;
     departments: Department[];

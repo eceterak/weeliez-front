@@ -18,6 +18,10 @@ export class Patient {
     }
 
     getFullName() {
-        return this.title + ' ' + this.name + ' ' + this.surname;
+        return this.name + ' ' + this.surname;
+    }
+
+    getDateOfBirth() {
+        return this.dateOfBirth.format('MM-DD-YYYY');
     }
 }

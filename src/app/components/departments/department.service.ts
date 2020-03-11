@@ -7,6 +7,9 @@ import { Params } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
 import { HttpDataResponse } from 'src/app/interfaces/httpDataResponse.interface';
 import { Doctor } from 'src/app/models/doctor.model';
+import { Service } from 'src/app/models/service.model';
+import { environment } from './../../../environments/environment';
+import { Image } from 'src/app/models/image.model';
 
 @Injectable()
 
@@ -19,7 +22,7 @@ export class DepartmentService {
     getAllDepartments(httpParams: Params): Observable<HttpPaginationResponse> {
         const page = httpParams.page || 1;
 
-        return this.http.get<HttpPaginationResponse>('http://127.0.0.1:8001/api/departments?page=' + page, {
+        return this.http.get<HttpPaginationResponse>(environment.api + 'departments?page=' + page, {
             params: httpParams
         }).pipe(
             map(response => {
@@ -36,7 +39,7 @@ export class DepartmentService {
     }
 
     getSelectDepartments(): Observable<HttpDataResponse> {
-        return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/departments?clean=1').pipe(
+        return this.http.get<HttpDataResponse>(environment.api + 'departments?clean=1').pipe(
             map(response => {
                 response.data = response.data.map(args => {
                     return new Department(args.id, args.name);
@@ -48,7 +51,7 @@ export class DepartmentService {
     }
 
     getDepartment(id: number): Observable<Department> {
-        return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/departments/' + id)
+        return this.http.get<HttpDataResponse>(environment.api + 'departments/' + id)
         .pipe(
             map(response => {
                 const args = response.data;
@@ -59,7 +62,7 @@ export class DepartmentService {
     }
 
     createDepartment(department: Department): Observable<any> {
-        return this.http.post('http://127.0.0.1:8001/api/departments', department).pipe(
+        return this.http.post(environment.api + 'departments', department).pipe(
             tap(response => {
                 const args = response.data;
                 
@@ -74,7 +77,7 @@ export class DepartmentService {
     }
 
     updateDepartment(id: number, data): Observable<any> {
-        return this.http.patch('http://127.0.0.1:8001/api/departments/' + id, data).pipe(
+        return this.http.patch(environment.api + 'departments/' + id, data).pipe(
             tap(response => {
                 const args = response.data;
                 
@@ -102,19 +105,45 @@ export class DepartmentService {
         this.departments.splice(position, 1);
         this.departmentsChanged.next(this.departments);
 
-        return this.http.delete('http://127.0.0.1:8001/api/departments/' + id);
+        return this.http.delete(environment.api + 'departments/' + id);
     }
 
     getDoctors(id: number): Observable<Doctor[]> {
-        return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/departments/' + id + '/doctors').pipe(
+        return this.http.get<HttpDataResponse>(environment.api + 'departments/' + id + '/doctors').pipe(
             map(response => {
                 let data = response.data.map((args: any) => {
-                    return new Doctor(
-                        args.id, 
-                        args.name,
-                        args.surname,
-                        args.title
-                    );
+                    if(args.images[0]) {
+                        const image = args.images[0];
+
+                        return new Doctor(
+                            args.id, 
+                            args.name,
+                            args.surname,
+                            args.title,
+                            null,
+                            new Image(image.id, image.url, image.owner_id, image.owner_type)
+                        );
+                    } else {
+                        return new Doctor(
+                            args.id, 
+                            args.name,
+                            args.surname,
+                            args.title,
+                            null
+                        );
+                    }
+                });
+
+                return data;
+            })
+        );
+    }
+
+    getServices(id: number): Observable<Service[]> {
+        return this.http.get<HttpDataResponse>(environment.api + 'departments/' + id + '/services').pipe(
+            map(response => {
+                let data = response.data.map((args: any) => {
+                    return new Service(args.id, args.name, args.department);
                 });
 
                 return data;

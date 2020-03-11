@@ -4,9 +4,10 @@ import { Subject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { HttpDataResponse } from 'src/app/interfaces/httpDataResponse.interface';
 import { Params } from '@angular/router';
-import { ImageService } from '../images/image.service';
 import { Patient } from 'src/app/models/patient.model';
 import { HttpPaginationResponse } from 'src/app/interfaces/httpPaginationResponse.interface';
+import * as _moment from 'moment';
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 
@@ -15,14 +16,13 @@ export class PatientService {
     patientsChanged = new Subject<Patient[]>();
 
     constructor(
-        private http: HttpClient, 
-        private imageService: ImageService
+        private http: HttpClient
     ) {}
 
     getAllPatients(httpParams: Params): Observable<HttpPaginationResponse> {
         const page = httpParams.page || 1;
 
-        return this.http.get<HttpPaginationResponse>('http://127.0.0.1:8001/api/patients?page=' + page, {
+        return this.http.get<HttpPaginationResponse>(environment.api + 'patients?page=' + page, {
             params: httpParams
         })
         .pipe(
@@ -34,7 +34,7 @@ export class PatientService {
                         args.surname,
                         args.title,
                         args.phone,
-                        args.dateOfBirth
+                        _moment(args.dateOfBirth)
                     );
                 });
 
@@ -46,14 +46,30 @@ export class PatientService {
         );
     }
 
+    getSelectPatients(): Observable<HttpDataResponse> {
+        return this.http.get<HttpDataResponse>(environment.api + 'patients?clean=1').pipe(
+            map(response => {
+                response.data = response.data.map(args => {
+                    return new Patient(
+                        args.id, 
+                        args.name,
+                        args.surname,
+                        args.title,
+                        args.phone,
+                        _moment(args.dateOfBirth)
+                    );
+                });
+
+                return response;
+            })
+        );
+    }
+
     getPatient(id: number): Observable<Patient> {
-        return this.http.get<HttpDataResponse>('http://127.0.0.1:8001/api/patients/' + id)
+        return this.http.get<HttpDataResponse>(environment.api + 'patients/' + id)
             .pipe(
                 map(response => {
-                    console.log(response);
                     const args = response.data;
-
-                    this.imageService.setImages(args.images);
                     
                     return new Patient(
                         args.id, 
@@ -61,14 +77,14 @@ export class PatientService {
                         args.surname,
                         args.title,
                         args.phone,
-                        args.dateOfBirth
+                        _moment(args.dateOfBirth)
                     );
                 })
             );
     }
 
     createPatient(data: any): Observable<any> {
-        return this.http.post('http://127.0.0.1:8001/api/patients', data).pipe(
+        return this.http.post(environment.api + 'patients', data).pipe(
             tap(response => {
                 const args = response.data;
                 
@@ -78,7 +94,7 @@ export class PatientService {
                     args.surname,
                     args.title,
                     args.phone,
-                    args.dateOfBirth
+                    _moment(args.dateOfBirth)
                 ));
 
                 this.patientsChanged.next(this.patients);
@@ -87,7 +103,7 @@ export class PatientService {
     }
 
     updatePatient(id: number, data: any): Observable<any> {
-        return this.http.patch<HttpDataResponse>('http://127.0.0.1:8001/api/patients/' + id, data).pipe(
+        return this.http.patch<HttpDataResponse>(environment.api + 'patients/' + id, data).pipe(
             tap(response => {
                 const args = response.data;
                 
@@ -97,7 +113,7 @@ export class PatientService {
                     args.surname,
                     args.title,
                     args.phone,
-                    args.dateOfBirth
+                    _moment(args.dateOfBirth)
                 );
 
                 const position = this.patients.findIndex( 
@@ -122,6 +138,6 @@ export class PatientService {
         this.patients.splice(position, 1);
         this.patientsChanged.next(this.patients);
 
-        return this.http.delete('http://127.0.0.1:8001/api/patients/' + id);
+        return this.http.delete(environment.api + 'patients/' + id);
     }
 }

@@ -1,0 +1,23 @@
+<mat-toolbar class="mb-4">
+    <h4>Services</h4>
+    <div class="ml-2">
+        <button mat-flat-button color="primary" (click)="onAddService()">Add</button>
+    </div>
+</mat-toolbar>
+
+<div *ngIf="services">
+    <mat-card>
+        <mat-card-content>
+            <table class="table table-borderless mb-0">
+                <thead>
+                    <th colspan="2">Name</th>
+                    <th>Department</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let service of services" app-service-list-item [service]="service"></tr>
+                </tbody>
+            </table>
+            <app-pagination [pager]="pager"></app-pagination>
+        </mat-card-content>
+    </mat-card>
+</div>

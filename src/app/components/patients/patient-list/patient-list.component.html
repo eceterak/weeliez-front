@@ -1,20 +1,14 @@
-<div class="d-flex mb-2 justify-content-between align-items-center">
-    <div class="d-flex">
-        <h4>Patients</h4>
-        <div class="ml-2">
-            <button mat-flat-button color="primary" (click)="onAddPatient()">Add</button>
-        </div>
+<mat-toolbar class="mb-4">
+    <h4>Patients</h4>
+    <div class="ml-2">
+        <button mat-flat-button color="primary" (click)="onAddPatient()">Add</button>
     </div>
-    <div>
-        <app-search (searchTermUpdate)="onSearchTermUpdate($event)"></app-search>
-    </div>
-</div>
+</mat-toolbar>
 
-<div class="row">
-    <div class="col-sm-12">
-        <!-- <app-loading-spinner></app-loading-spinner> -->
-        <div *ngIf="patients">
-            <table class="table table-striped">
+<div *ngIf="patients">
+    <mat-card>
+        <mat-card-content>
+            <table class="table table-borderless mb-0">
                 <thead>
                     <th colspan="2">Name</th>
                     <th>Date of birth</th>
@@ -24,7 +18,6 @@
                 </tbody>
             </table>
             <app-pagination [pager]="pager"></app-pagination>
-        </div>
-    </div>
+        </mat-card-content>
+    </mat-card>
 </div>
-    

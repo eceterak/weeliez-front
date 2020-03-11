@@ -35,7 +35,7 @@ export class DepartmentListItemComponent {
 
     onEditDepartment() {
         this.dialog.open(DepartmentDialogComponent, {
-            width: '800px',
+            width: '600px',
             data: this.department.id,
             position: { 
                 top: '50px' 

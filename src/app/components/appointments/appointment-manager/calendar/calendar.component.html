@@ -1,0 +1,35 @@
+<div *ngIf="appointmentsTable" class="mt-4">
+    <table class="table table-borderless">
+        <thead>
+            <tr class="table-secondary">
+                <th></th>
+                <th *ngFor="let slot of slots">
+                    {{ slot }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let calendarRow of appointmentsTable">
+                <td class="text-left">{{ calendarRow.getDate() }}</td>
+                <td *ngFor="let slot of calendarRow.slots; let s = index">
+                    <div *ngIf="calendarRow.isAvailable">
+                        <div *ngIf="!slot">
+                            <button mat-flat-button color="primary" (click)="onManageAppointment(s, calendarRow.date, null)">
+                                <mat-icon>check</mat-icon>
+                            </button>
+                        </div>
+                        <div *ngIf="slot">
+                            <button mat-flat-button color="warn" (click)="onManageAppointment(s, calendarRow.date, slot)">
+                                <mat-icon>av_timer</mat-icon>  
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="!calendarRow.isAvailable">
+                        <span class="font-italic text-danger">holiday</span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="mb-0 small"><mat-icon>info</mat-icon> Click on selected slot to manage or create appointment.</p>
+</div>

@@ -12,15 +12,19 @@ export class ImageGalleryComponent implements OnInit, OnDestroy {
 
     @Input() ownerId: number;
     @Input() ownerType: number;
-    private images: Image[];
+    @Input() image: Image = null;
     private imagesChangedSubscription: Subscription;
 
     constructor(private imageService: ImageService) {}
 
     ngOnInit() {
         this.imagesChangedSubscription = this.imageService.imagesChanged.subscribe(
-            (images: Image[]) => {
-                this.images = images;
+            (images: Image[] | null) => {
+                if(images) {
+                    this.image = images[0];
+                } else {
+                    this.image = null;
+                }
             }
         );
     }

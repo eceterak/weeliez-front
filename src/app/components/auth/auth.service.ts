@@ -4,6 +4,7 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { JWTAuthResponse } from 'src/app/interfaces/JWTAuthResponse.interface';
 import { tap, catchError } from 'rxjs/operators';
 import { User } from 'src/app/models/user.model';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthService {
     ) {}
 
     login(email: string, password: string): Observable<JWTAuthResponse> {
-        return this.http.post<JWTAuthResponse>('http://127.0.0.1:8001/api/login', {
+        return this.http.post<JWTAuthResponse>(environment.api + 'login', {
             email: email,
             password: password
         }).pipe(
@@ -75,7 +76,7 @@ export class AuthService {
         
         this.tokenExpirationTimer = null;
         
-        return this.http.post('http://127.0.0.1:8001/api/logout', {}).pipe(
+        return this.http.post(environment.api + 'logout', {}).pipe(
             catchError(this.handleError),
             tap((_) => {
                 this.user.next(null);

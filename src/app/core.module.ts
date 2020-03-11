@@ -6,18 +6,20 @@ import { LoadingSpinnerInterceptor } from './shared/loading-spinner/loading-spin
 import { AuthInterceptor } from './components/auth/auth.interceptor';
 import { UtilitiesService } from './shared/utilities.service';
 import { DepartmentService } from './components/departments/department.service';
-import { CalendarService } from './components/appointments/rota/calendar/calendar.service';
+import { CalendarService } from './components/appointments/appointment-manager/calendar/calendar.service';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { AppointmentService } from './components/appointments/appointment.service';
 import { PatientService } from './components/patients/patient.service';
+import { ServiceService } from './components/services/services.service';
 
 @NgModule({
     providers: [
         DoctorService,
-        ImageService,
         DepartmentService,
         PatientService,
+        ServiceService,
+        ImageService,
         CalendarService,
         AppointmentService,
         UtilitiesService,
