@@ -5,9 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AlertService } from 'src/app/shared/alert/alert.service';
 import { UtilitiesService } from 'src/app/shared/utilities.service';
-import { DepartmentService } from '../../departments/department.service';
 import { Department } from 'src/app/models/department.model';
-import { HttpDataResponse } from 'src/app/interfaces/httpDataResponse.interface';
 import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
 
 @Component({
@@ -26,8 +24,7 @@ export class DoctorDialogComponent implements OnInit {
     ];
 
     constructor(
-        private doctorService: DoctorService, 
-        private departmentService: DepartmentService,
+        private doctorService: DoctorService,
         private alertService: AlertService,
         @Inject(MAT_DIALOG_DATA) private id,
         private dialogRef: MatDialogRef<DoctorDialogComponent>,
@@ -37,14 +34,14 @@ export class DoctorDialogComponent implements OnInit {
     ngOnInit() {
         this.initForm();
 
-        this.departmentService.getSelectDepartments().subscribe(
-            (response: HttpDataResponse) => {
-                this.departments = response.data;
-            },
-            (error: HttpErrorResponse) => {
-                console.log(error);
-            }
-        );
+        // this.departmentService.getSelectDepartments().subscribe(
+        //     (response: HttpDataResponse) => {
+        //         this.departments = response.data;
+        //     },
+        //     (error: HttpErrorResponse) => {
+        //         console.log(error);
+        //     }
+        // );
     }
 
     initForm(): void {
